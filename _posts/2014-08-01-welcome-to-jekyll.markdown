@@ -1,24 +1,17 @@
 ---
 layout: post
-title:  "Welcome to Jekyll!"
-date:   2014-08-01 22:56:32
-categories: jekyll update
+title:  "Interning"
+date:   2014-07-01 22:56:32
+categories: Interning
 ---
 
-You'll find this post in your `_posts` directory - edit this post and re-build (or run with the `-w` switch) to see your changes!
-To add new posts, simply add a file in the `_posts` directory that follows the convention: YYYY-MM-DD-name-of-post.ext.
+I recently got an Internship opportunity at a software development company and I've decided to keep a blog to show what I've learned, and as a personal reminder of where I started from...
+Their language of choice for backend is Python with Django, and they use Ember.js as their Javasript framework. 
+I've done Python tutorials and I enjoy the language, but I'm not too familiar with it. 
+I've never used Ember at all, and I'm not a fan of Javascript at all, but I'm willing to learn.
 
-Jekyll also offers powerful support for code snippets:
+To start out though they have me building static websites for customers using Jeykll, and Bootstrap for the CSS styling. I'm also learning to get familiar with Github, both of which I'm now using for this blog.
 
-{% highlight ruby %}
-def print_hi(name)
-  puts "Hi, #{name}"
-end
-print_hi('Tom')
-#=> prints 'Hi, Tom' to STDOUT.
-{% endhighlight %}
 
-Check out the [Jekyll docs][jekyll] for more info on how to get the most out of Jekyll. File all bugs/feature requests at [Jekyll's GitHub repo][jekyll-gh].
 
-[jekyll-gh]: https://github.com/jekyll/jekyll
-[jekyll]:    http://jekyllrb.com
+
