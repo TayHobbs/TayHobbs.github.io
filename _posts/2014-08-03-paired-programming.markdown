@@ -19,5 +19,5 @@ Paired Programming has another advantage, it's an amazing learning tool. Being t
 In a month I've learned more than I think I would've in six non-pair programming. It's what I think is the biggest advantage to paired programming, when I pair with someone
 I can quickly gain all of their experience. There are 5 other guys in my department, so essentially I "gain" all of their knowledge.
 
-I've only been Pair Programmin for a few weeks now, but I already can't picture working in any other environment. I'm looking forward to the coming months and learning more.
+I've only been Pair Programming for a few weeks now, but I already can't picture working in any other environment. I'm looking forward to the coming months and learning more.
 
