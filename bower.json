@@ -1,0 +1,7 @@
+{
+    "name": "ember_tutorial",
+    "dependencies": {
+        "jquery": "*",
+        "bootstrap": "*"
+    }
+}
