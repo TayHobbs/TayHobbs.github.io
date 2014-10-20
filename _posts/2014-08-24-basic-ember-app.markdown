@@ -2,7 +2,7 @@
 layout: post
 title:  "Basic Ember App"
 date:   2014-08-24 20:51:32
-categories: Interning
+categories: interning
 ---
 
 Writing a basic Ember.js application is simple... After you spend 2 weeks memorizing
