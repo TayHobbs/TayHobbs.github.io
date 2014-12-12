@@ -104,7 +104,7 @@ Simply pass it the name of a package like you're trying to pip install it, and i
 
 
 With that we're ready to build the plugin. In the main directory alongside setup.py run "python setup.py sdist" and that will
-build the package. To upload your package run "python setup.py sdist -i pypi" and if there are no conflicts with the
+build the package. To upload your package run "python setup.py sdist upload -i pypi" and if there are no conflicts with the
 package name it'll be added to PyPi.
 
 And that's it! You've now built and distributed your first Python package. Go make the Pythom world a better place.
