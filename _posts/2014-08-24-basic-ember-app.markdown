@@ -25,6 +25,7 @@ App = Ember.Application.create({})
 {% endhighlight %}
 "App" can obviously be anything you want, but it's what Ember will use to reference your
 application from here on out, so choose wisely.
+
 ###Step 3:
 
 Next we have to create our router, one of the major benefits to Ember is
