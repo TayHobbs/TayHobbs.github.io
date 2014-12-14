@@ -1,6 +1,6 @@
 ---
 layout: page
-title: ~/About
+title: About Taylor
 permalink: /about/
 ---
 
@@ -8,4 +8,4 @@ Taylor Hobbs is currently employed at IMT Computer Services. He works with build
 
 Outside of work, he enjoys being active in the open source community, hacking on side projects in Python and Javascript, and learning more about modern programming languages and frameworks.
 
-Send him an <a href='mailto:hobbstay@gmail.com'>email</a>
+Send him an <a href='mailto:hobbstay@gmail.com'>email.</a>

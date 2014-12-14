@@ -5,7 +5,7 @@ date:   2014-10-15 17:34:32
 categories: CSS
 ---
 
-I recently had a situation at where I wanted to use a Bootstrap table style, but be able to expand the row to show additional information.
+I recently had a situation where I wanted to use a Bootstrap table style, but be able to expand the row to show additional information.
 After having difficulty with trying to do this with a Bootstrap table directly, I decided to create my own table matching Bootstrap's style,
 because tables were already being used in other places.
 This turned out to be easier than I originally expected. Using Bootstrap's built in columns and some custom CSS, we can get the look fairly simply.

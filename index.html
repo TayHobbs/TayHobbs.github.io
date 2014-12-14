@@ -3,22 +3,21 @@ layout: default
 ---
 
 <div class="home container">
-<div class="row">
-  <div class="col-sm-3">
-  <h1>~/Posts</h1>
-</div>
-<div class="row">
-</div>
-  <div class="col-md-7 col-sm-offset-1">
-  <ul class="posts">
-    {% for post in site.posts %}
-      <li>
-        <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
-        <span class="post-date">{{ post.date | date: "%b %-d, %Y" }}</span>
-        <hr>
-      </li>
-    {% endfor %}
-  </ul>
-</div>
-</div>
+  <div class="row">
+    <div class="col-lg-12">
+      <h4 class="centered">POSTS</h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-10 col-lg-offset-1">
+      <ul class="posts">
+        {% for post in site.posts %}
+          <li>
+            <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
+            <span class="post-date">{{ post.date | date: "%b %-d, %Y" }}</span>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
 </div>
