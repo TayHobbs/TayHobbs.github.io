@@ -5,6 +5,10 @@ date:   2014-08-24 20:51:32
 categories: interning
 ---
 
+With the coming of Ember-CLI, I would recommend you use it, rather than rolling your own solution 
+with Grunt or Gulp like you would need to with this guide.
+
+
 Writing a basic Ember.js application is simple... After you spend 2 weeks memorizing
 all the naming conventions. After banging my head against a wall seemingly forever,
 I've finally gotten over the initial hump. I know there are hundreds of Ember tutorials
