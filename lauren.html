@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Image Map</title>
+  <meta charset="utf-8" />
+</head>
+<body>
+<div style="float: right; clear: both; width: 55%; height: 50px; padding-top: 200px;" id="selections"></div>
+<img id="image" src="http://www.image-maps.com/m/private/0/e0geb5nu1hika2c59km59j2kr2_skeleton.jpg" border="0" width="228" height="819" orgWidth="228" orgHeight="819" usemap="#image-maps-2015-08-25-220131" alt="" />
+<map name="image-maps-2015-08-25-220131" id="ImageMapsCom-image-maps-2015-08-25-220131">
+<area  alt="" title="fibula" href="#" shape="rect" coords="150,593,170,731" style="outline:none;" />
+<area  alt="" title="tibia" href="#" shape="rect" coords="131,589,153,731" style="outline:none;" />
+<area  alt="" title="clavicle" href="#" shape="rect" coords="24,141,198,152" style="outline:none;" />
+<area  alt="" title="manubrium" href="#" shape="rect" coords="95,152,129,165" style="outline:none;" />
+<area  alt="" title="sternum" href="#" shape="rect" coords="100,167,120,229" style="outline:none;" />
+<area  alt="" title="scapula" href="#" shape="rect" coords="160,155,191,185" style="outline:none;" />
+<area  alt="" title="ribs" href="#" shape="rect" coords="51,156,85,275" style="outline:none;" />
+<area  alt="" title="coccyx" href="#" shape="rect" coords="95,364,132,383" style="outline:none;" />
+<area  alt="" title="sacrum" href="#" shape="rect" coords="94,335,134,362" style="outline:none;" />
+<area  alt="" title="femur" href="#" shape="rect" coords="128,403,172,551" style="outline:none;" />
+<area  alt="" title="patella" href="#" shape="rect" coords="127,549,177,571" style="outline:none;" />
+<area  alt="" title="humerus" href="#" shape="rect" coords="172,182,208,287" style="outline:none;" />
+<area  alt="" title="carpals" href="#" shape="rect" coords="186,387,218,401" style="outline:none;" />
+<area  alt="" title="metacarpals" href="#" shape="rect" coords="179,401,228,423" style="outline:none;" />
+<area  alt="" title="phalanges" href="#" shape="rect" coords="172,420,228,456" style="outline:none;" />
+<area  alt="" title="lumbar" href="#" shape="rect" coords="95,257,130,319" style="outline:none;" />
+<area  alt="" title="" href="#" shape="rect" coords="95,260,130,322" style="outline:none;" />
+<area  alt="" title="pelvic" href="#" shape="rect" coords="139,303,173,381" style="outline:none;" />
+<area  alt="" title="cervical" href="#" shape="rect" coords="86,103,140,135" style="outline:none;" />
+<area  alt="" title="cranium" href="#" shape="poly" coords="81,71,142,75,148,35,112,10,77,34" style="outline:none;" />
+<area  alt="" title="mandible" href="#" shape="poly" coords="87,79,133,83,131,99,111,104,91,98" style="outline:none;" />
+<area  alt="" title="tarsals" href="#" shape="poly" coords="135,731,159,731,161,748,137,749" style="outline:none;" />
+<area  alt="" title="metatarsals" href="#" shape="poly" coords="139,757,176,756,157,782" style="outline:none;" />
+<area  alt="" title="phalanges" href="#" shape="poly" coords="157,788,181,763,194,777,171,808" style="outline:none;" />
+<area  alt="" title="ulna" href="#" shape="poly" coords="178,294,192,291,191,378,188,384" style="outline:none;" />
+<area  alt="" title="radius" href="#" shape="poly" coords="210,293,195,291,197,380,210,385" style="outline:none;" />
+<area  alt="" title="heart" href="#" shape="poly" coords="145,180,128,169,127,189,142,212,160,194,158,172" style="outline:none;" />
+</map>
+  <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+  <script src="imagemapster.min.js"></script>
+  <script type="application/javascript">
+    var xref = {
+      heart: "The heart. &nbsp; Mine is yours. <br><br> I love you Lauren",
+      fibula: 'The <a href="https://en.wikipedia.org/wiki/fibula">fibula</a>',
+      tibia: 'The <a href="https://en.wikipedia.org/wiki/tibia">tibia</a>',
+      clavicle: 'The <a href="https://en.wikipedia.org/wiki/clavicle">clavicle</a>',
+      manubrium: 'The manubrium',
+      sternum: 'The <a href="https://en.wikipedia.org/wiki/Sternum">sternum</a>',
+      scapula: 'The <a href="https://en.wikipedia.org/wiki/Scapula">scapula</a>',
+      ribs: 'The <a href="https://en.wikipedia.org/wiki/rib_cage">ribs</a>',
+      coccyx: 'The <a href="https://en.wikipedia.org/wiki/coccyx">coccyx</a>',
+      sacrum: 'The <a href="https://en.wikipedia.org/wiki/sacrum">sacrum</a>',
+      femur: 'The <a href="https://en.wikipedia.org/wiki/femur">femur</a>',
+      patella: 'The <a href="https://en.wikipedia.org/wiki/patella">patella</a>',
+      humerus: 'The <a href="https://en.wikipedia.org/wiki/humerus">humerus</a>',
+      carpals: 'The <a href="https://en.wikipedia.org/wiki/carpus">carpus</a>',
+      metacarpals: 'The <a href="https://en.wikipedia.org/wiki/metacarpus">metacarpus</a>',
+      phalanges: 'The <a href="https://en.wikipedia.org/wiki/Phalanx_bone">phalanges</a>',
+      lumbar: 'The <a href="https://en.wikipedia.org/wiki/lumbar">lumbar</a>',
+      pelvic: 'The <a href="https://en.wikipedia.org/wiki/pelvis">pelvic</a>',
+      cervical: 'The <a href="https://en.wikipedia.org/wiki/neck">cervical</a>',
+      cranium: 'The <a href="https://en.wikipedia.org/wiki/skull">cranium</a>',
+      mandible: 'The <a href="https://en.wikipedia.org/wiki/">mandible</a>',
+      tarsals: 'The tarsals',
+      metatarsals: 'The metatarsals',
+      phalanges: 'The <a href="https://en.wikipedia.org/wiki/phalanges">phalanges</a>',
+      ulna: 'The <a href="https://en.wikipedia.org/wiki/ulna">ulna</a>',
+      radius: 'The <a href="https://en.wikipedia.org/wiki/radius_(bone)">radius</a>',
+    };
+    $(document).ready(function() {
+      $('#image').mapster({
+        fillOpacity: 0.4,
+        fillColor: "d42e16",
+        stroke: true,
+        strokeColor: "3320FF",
+        strokeOpacity: 0.8,
+        strokeWidth: 4,
+        singleSelect: true,
+        mapKey: 'title',
+        listKey: 'title',
+        onClick: function (e) {
+            $('#selections').html(xref[e.key]);
+
+        }
+    });
+    });
+  </script>
+</body>
+</html>
