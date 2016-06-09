@@ -6,7 +6,7 @@ baseurl: ""
 url: "http://yourdomain.com"
 twitter_username: taylorkjh
 github_username:  TayHobbs
-highlighter: pygments
+highlighter: rouge
 
 # Build settings
 markdown: kramdown
