@@ -1,0 +1,310 @@
+body {
+  max-width: 55em;
+  margin: 0 auto;
+}
+
+footer {
+  margin-top: 5em;
+  border-top: 2px solid #0265a3;
+  clear: both;
+}
+
+nav {
+  border-top: 2px solid #0265a3;
+}
+
+#nav-bar {
+  background:  #FFF;
+  float:  left;
+  text-align:  center;
+}
+
+#nav-bar > li {
+  float: left;
+  display: inline;
+}
+
+#nav-bar > li:hover {
+  background: #E6E6E6;
+}
+
+#nav-bar > li > a {
+  display: block;
+  padding: 15px 40px;
+  color: #444;
+  text-decoration: none;
+}
+
+#nav-bar > li > ul {
+  position: absolute;
+  width: 200px;
+  background: #FFF;
+  display: none;
+  padding: 0 14px 0 0;
+  z-index: 2;
+}
+
+#nav-bar > li > ul > li {
+  width: 110px;
+  list-style: none;
+  float: left;
+}
+
+#nav-bar > li > ul > li > a {
+  display: block;
+  padding: 15px 10px;
+  color: #444;
+  text-decoration: none;
+  width: 200px;
+}
+
+#nav-bar > li > ul > li:hover > a {
+  background: #F7F7F7;
+}
+
+#logo {
+  width: 375px;
+  height: 70px;
+}
+
+#latest-news-header {
+  margin-top: 6em;
+}
+
+#footer-info {
+  margin-top: 3em;
+  text-align: center;
+}
+
+#login {
+  display: inline-block;
+  float: right;
+  padding: 55px 25px 0 0;
+}
+
+#login > a {
+  color: black;
+  text-decoration: none;
+}
+
+#login > a:hover {
+  text-decoration: underline;
+}
+
+#locked-articles {
+  -webkit-filter: blur(5px);
+  -moz-filter: blur(5px);
+  -o-filter: blur(5px);
+  -ms-filter: blur(5px);
+  filter: blur(5px);
+}
+
+#locked-info {
+  position: absolute;
+  z-index: 1;
+}
+
+#locked-image {
+  width: 100px;
+  margin-left: 24em;
+}
+
+#locked-text {
+  font-size: 20px;
+  margin-left: 16.8em;
+}
+
+#ideas {
+  width: 33%;
+  display: inline-block;
+}
+
+#ideas img {
+  width: 150px;
+}
+
+#power {
+  width: 33%;
+  display: inline;
+}
+
+#power img {
+  width: 150px;
+  margin: 0 9%;
+}
+
+#deck {
+  width: 25%;
+  display: inline-block;
+  float: right;
+}
+
+#deck img {
+  float: right;
+  width: 150px;
+}
+
+#ad {
+  float: right;
+}
+
+#ad img {
+  width: 200px;
+}
+
+#content-coming {
+  text-align: center;
+}
+
+#culture-news-header {
+  color: #0063a4;
+}
+
+#globe-header {
+  color: #0063a4;
+  text-align: center;
+}
+
+#millenial-header {
+  color: #0063a4;
+  text-align: center;
+  margin-bottom: 0;
+}
+
+#article-date {
+  font-size: .6em;
+  color: grey;
+  margin: 0 0 1em 1em;
+}
+
+#article-text {
+  text-indent: 40px;
+}
+
+.news-articles-left {
+  width: 60%;
+  display: inline-block;
+  height: 200px;
+}
+
+.news-articles-right {
+  width: 40%;
+  display: inline;
+  float: right;
+  height: 200px;
+}
+
+.article-title:before {
+  content: "• ";
+}
+
+.article-title {
+  font-size: .8em;
+}
+
+.article-title a {
+  color: black;
+  text-decoration: none;
+}
+
+.article-title a:hover {
+  text-decoration: underline;
+}
+
+.section-header {
+  width: 100%;
+  background-color: #0064a3;
+  height: 2em;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.section-header > p {
+  padding-top: .5em;
+  color: white;
+  font-weight: bold;
+}
+
+.article-synopsis {
+  margin-left: 1em;
+  color: grey;
+  font-size: .6em;
+  max-width: 250px;
+}
+
+.nav-bar-row {
+  border-top: 2px solid #0265a3;
+}
+
+.center-block {
+  margin: 0 auto;
+  width: 48%;
+  padding-left: 30px;
+}
+
+.industry-news {
+  width: 25%;
+  display: inline-block;
+}
+
+.industry-news > ul > li {
+  text-align: left;
+  padding-top: 10px;
+}
+
+.industry-news > ul > li > a {
+  color: black;
+  text-decoration: none;
+}
+
+.industry-news > ul > li > a:hover {
+  text-decoration: underline;
+}
+
+.active {
+  background: #E6E6E6;
+  cursor: default;
+}
+
+.section-news {
+  width: 65%;
+  display: inline-block;
+}
+
+.section-article-synopsis {
+  margin-left: 1em;
+  color: grey;
+  font-size: .7em;
+}
+
+.section-news a {
+  color: black;
+  text-decoration: none;
+}
+
+.section-news a:hover {
+  text-decoration:underline;
+}
+
+.section-news > div {
+  border-bottom: solid 1px grey;
+  padding-bottom: 10px;
+}
+
+.section-ads {
+  width: 33%;
+  display: inline;
+  float: right;
+}
+
+.section-ads img {
+  width: 300px;
+}
+
+.section-ads div {
+  display: inline;
+}
+
+.animation {
+  text-align: center;
+}
