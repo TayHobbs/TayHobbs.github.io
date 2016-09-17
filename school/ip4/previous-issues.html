@@ -9,6 +9,20 @@
   <body class="container-fluid">
     <header>
       <div class="row">
+        <div id="search">
+          <script>
+            (function() {
+              var cx = '016189779631752884051:i2bfngll4pi';
+              var gcse = document.createElement('script');
+              gcse.type = 'text/javascript';
+              gcse.async = true;
+              gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+              var s = document.getElementsByTagName('script')[0];
+              s.parentNode.insertBefore(gcse, s);
+            })();
+          </script>
+          <gcse:search></gcse:search>
+        </div>
         <div id="login">
           <a href="register.html">Register</a> | <a href="login.html">Login</a>
         </div>
@@ -90,13 +104,13 @@
   </body>
   <footer>
     <div id="footer-info">
-      <p><a href="http://businessrecord.com/">Business Record Original Site</a></p>
+      <p id="business-record-link"><a href="http://businessrecord.com/">Business Record Original Site</a></p>
       <p>Redesign By Taylor Hobbs</p>
       <p>
       The Depot at 4th, 100 4th Street, Des Moines, Iowa 50309 | <a href="tel:5152883336">(515) 288-3336</a> |
         &copy; 2016 Business Record. All Rights Reserved.
       </p>
-      <p><a href="legal-disclaimer.html">Legal disclaimer</a></p>
+      <p id="legal-disclaimer"><a href="legal-disclaimer.html">Legal disclaimer</a></p>
     </div>
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
     <script src="navigation.js"></script>

@@ -5,8 +5,22 @@ body {
 
 footer {
   margin-top: 5em;
-  border-top: 2px solid #0265a3;
+  border-top: 2px solid #024873;
   clear: both;
+  background-color: #0265a3;
+  color: white;
+}
+
+footer a {
+  color: white;
+}
+
+#business-record-link {
+  margin-top: -15px;
+}
+
+#legal-disclaimer {
+  margin-bottom: 0;
 }
 
 nav {
@@ -77,9 +91,8 @@ nav {
 }
 
 #login {
-  display: inline-block;
   float: right;
-  padding: 55px 25px 0 0;
+  padding: 48px 5px 0 0;
 }
 
 #login > a {
@@ -179,6 +192,22 @@ nav {
 
 #article-text {
   text-indent: 40px;
+}
+
+#search {
+  max-width: 300px;
+  display: inline-block;
+  float: right;
+  padding-top: 20px;
+}
+
+.cse .gsc-control-cse, .gsc-control-cse {
+  background-color: transparent !important;
+}
+
+.gsc-control-cse {
+  background-color: transparent !important;
+  border: none !important;
 }
 
 .news-articles-left {
