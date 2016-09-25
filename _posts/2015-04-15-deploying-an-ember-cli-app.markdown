@@ -15,7 +15,7 @@ you to store data, or host a static site which is what we will be doing today. I
 that way you don't end up with a user that has complete access to every service. Amazon actually recommends that you never use the root user in anything, always
 make sure to have an IAM user set up.
 
-##Create and Configure a Bucket
+## Create and Configure a Bucket
 
 First thing we have to do is create a bucket to host our static site in. Something to keep in mind is that bucket names are global across all AWS accounts.
 Another thing that can trip you up is that if you are routing your static site's DNS through Route 53, it is import that your bucket name match what your
@@ -46,14 +46,14 @@ Here is an example of what you want to enter (substituting 'mygreatblog.com' for
 }
 {% endhighlight %}
 
-##Upload Site
+## Upload Site
 
 After getting your bucket configured, click on your bucket name to enter it. You should see `The bucket 'mygreatblog.com' is empty`. Great, we're about to fix that.
 Click the `Actions` dropdown and then select `Upload`. From here you'll want to drag the entire contents of your Ember app's dist/ folder.
 After the files finish uploading you'll be good to go. Click the `Properties` button again and navigate to the `Static Website Hosting` menu, there should be a link
 that looks something like `mygreatblog.com.s3-website-us-east-1.amazonaws.com`, this is the link to your static site and what you'll want to Alias your DNS to.
 
-##Setting Up an Automatic Deploy
+## Setting Up an Automatic Deploy
 
 Congratulations! You have a static site hosted on S3. Next is the step to setting up an automatic deploy so you don't have to do the drag and drop everytime you want to redeploy your site.
 

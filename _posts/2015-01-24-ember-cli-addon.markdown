@@ -11,7 +11,7 @@ to work.
 If you are unfamiliar with Ember-CLI their [website](http://ember-cli.com/) website has a good tutorial, and links to examples
 to get you started.
 
-##Getting Ember-CLI and Starting the Addon
+## Getting Ember-CLI and Starting the Addon
 We're going to create an addon that has a component that has a property and renders the property in the template.
 
 First item of business is making sure you have Ember-CLI, the recommended course of action is to have it installed globally.
@@ -31,7 +31,7 @@ lives in app/templates/components. Another confusing problem that I didn't under
 we will import our component from our addon directory and immediately export. This is entirely for namespacing.
 
 
-##Create the Component
+## Create the Component
 In Ember components must have a dash in the name, so our component will be called "my-component".
 Create the .js file inside addon/components/ and make it look like this:
 
@@ -61,7 +61,7 @@ export default MyComponent;
 That's the extent of making an Ember-CLI addon. Now all we have to do is npm install our addon and it is available inside our app.
 
 
-##Changing the Component Inside Our App
+## Changing the Component Inside Our App
 If you need to change your component inside your app, all that we need to do is import inside our app's component directory.
 So if we wanted to change myComponentProperty, in app/components/my-component.js:
 {% highlight javascript %}
@@ -79,11 +79,11 @@ export default MyComponent;
 And our component will be changed!
 
 
-##Index.js
+## Index.js
 A lot of the power for Ember-CLI addons comes from the index.js file, there are a lot of different hooks to add data to the parent app.
 Here are some of the ones I've found useful,
 
-###contentFor
+### contentFor
 Use contentFor if you want to insert tags into the head, body or footer of your index.html page.
 {% highlight javascript %}
 module.exports = {
@@ -104,7 +104,7 @@ module.exports = {
 }
 {% endhighlight %}
 
-###treeForPublic
+### treeForPublic
 treeForPublic is for adding public files, such as images, to the parent app.
 Create an assets directory, inside the public directory and add an image directory inside that.
 
@@ -128,7 +128,7 @@ module.exports = {
 }
 {% endhighlight %}
 
-###Injecting Dependencies
+### Injecting Dependencies
 If you want to inject some dependencies into the parent app, it's very simple, but the parent app has to have the dependencies bower
 installed. A good way to help this is through a blueprint.
 Create a directory called blueprints, then make one named after our addon, "my-addon", and create and index.js file inside there that looks
@@ -154,7 +154,7 @@ module.exports = {
 }
 {% endhighlight %}
 
-###Config
+### Config
 One of my favorite additions is the config hook, it allows you to insert your own configuration into the parent app's ENV.
 What you define in the addon will be what is added the the parent app, it can act as a default, for you to override.
 

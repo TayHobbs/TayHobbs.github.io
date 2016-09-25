@@ -25,10 +25,10 @@ repository:http://pypi.python.org/pypi
 
 With that you're ready.
 
-###Decide What To Make
+### Decide What To Make
 We're going to make a very simple example package called "Hello", that will take a name as a flag, returning "Hello, {name}"
 
-###Make Your Folder Structure
+### Make Your Folder Structure
 I like to make a folder, with the name of my project, then at the same level of that folder, have my setup.py file,
 a README.rst and a MANIFEST.in.
 
@@ -47,7 +47,7 @@ Inside the 'hello/' folder, I like to do all of my logic in a \_\_init\_\_.py fi
 {% endhighlight %}
 
 
-###Write Your Package
+### Write Your Package
 Inside the \_\_init\_\_.py we'll start our code. It's going to be a very simple method that takes a parameter and returns
 a string with that parameter at the end.
 {% highlight python %}
@@ -110,7 +110,7 @@ package name it'll be added to PyPi.
 And that's it! You've now built and distributed your first Python package. Go make the Pythom world a better place.
 
 
-###Explaining The MANIFEST.in
+### Explaining The MANIFEST.in
 
 Something that confused me was the requirement of the MANIFEST.in file, I just wanted to include a README for my github
 repo and let that serve as my "long_description". This is actually very trivial, but is a little confusing your first time around.
@@ -120,7 +120,7 @@ include README.rst *
 {% endhighlight %}
 That's all it takes.
 
-###Installing Your Package Before Upload
+### Installing Your Package Before Upload
 
 Another thing I find handy is testing my package before I upload it. This tripped me up quite a bit my first time,
 so I thought I'd include it here.

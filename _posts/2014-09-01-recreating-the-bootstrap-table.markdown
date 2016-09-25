@@ -12,7 +12,7 @@ This turned out to be easier than I originally expected. Using Bootstrap's built
 I also use a tiny bit of jQuery to get a slide toggle effect to show the additional information.
 Overall it was a fun exercise and I was pleased with the way it turned out.
 
-###CodePen:
+### CodePen:
 
 <p data-height="268" data-theme-id="0" data-slug-hash="OPyVKb" data-default-tab="result" data-user="TayHobbs" class='codepen'>See the Pen <a href='http://codepen.io/TayHobbs/pen/OPyVKb/'>Faux Bootstrap Table</a> by Taylor Hobbs (<a href='http://codepen.io/TayHobbs'>@TayHobbs</a>) on <a href='http://codepen.io'>CodePen</a>.</p>
 <script async src="//assets.codepen.io/assets/embed/ei.js"></script>
