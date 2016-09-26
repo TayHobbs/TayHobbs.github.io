@@ -2,6 +2,7 @@
 layout: post
 title:  "Why I Blog (Or, more accurately: Why I don't blog)"
 date:   2016-06-12 20:51:32
+image: "../../../../../../../images/why.jpeg"
 categories: blogging
 ---
 

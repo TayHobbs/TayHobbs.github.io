@@ -2,6 +2,7 @@
 layout: post
 title:  "Ember-CLI Addon"
 date:   2015-01-24 20:51:32
+image: "../../../../../../../images/addon.jpeg"
 categories: ember
 ---
 

@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Projects
+image: "../images/projects.jpeg"
 permalink: /projects/
 ---
 

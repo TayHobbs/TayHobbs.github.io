@@ -1,6 +1,7 @@
 ---
 layout: page
 title: About Taylor
+image: "../images/about.jpeg"
 permalink: /about/
 ---
 

@@ -2,6 +2,7 @@
 layout: post
 title:  "Basic Ember App"
 date:   2014-08-24 20:51:32
+image: "../../../../../../../images/ember-app.jpeg"
 categories: interning
 ---
 

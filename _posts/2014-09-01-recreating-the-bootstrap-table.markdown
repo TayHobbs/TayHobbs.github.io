@@ -2,6 +2,7 @@
 layout: post
 title:  "Recreating the Bootstrap Table"
 date:   2014-10-15 17:34:32
+image: "../../../../../../../images/table.jpeg"
 categories: CSS
 ---
 

@@ -1,6 +1,7 @@
 ---
 layout: post
 title:  "Deploying an Ember-CLI App"
+image: "../../../../../../../images/deploy-ember.jpeg"
 date:   2015-04-15 20:51:32
 categories: ember
 ---

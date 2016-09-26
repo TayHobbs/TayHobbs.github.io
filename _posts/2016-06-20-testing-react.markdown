@@ -2,6 +2,7 @@
 layout: post
 title:  "Testing React"
 date:   2016-06-20 20:51:32
+image: "../../../../../../../images/testing-react.jpeg"
 categories: react programming
 ---
 
