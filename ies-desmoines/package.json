@@ -1,0 +1,14 @@
+{
+  "name": "workout_log",
+  "dependencies": {
+    "bower": "*",
+    "coffee-script": "*"
+  },
+  "scripts": {
+    "postinstall": "bower install"
+  },
+  "devDependencies": {
+    "phantomjs": "^1.9.7-15",
+    "testem": "^0.6.18"
+  }
+}

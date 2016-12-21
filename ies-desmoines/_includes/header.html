@@ -1,0 +1,27 @@
+<div id="logo">
+  <a href="/{{site.baseurl}}">
+    <img src="{{site.baseurl}}/images/headerlogo.png" alt="ISE Des Moines">
+  </a>
+</div>
+<nav id="navbar" class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav navbar-right">
+        <li class="{{page.events}}"><a href="{{ site.baseurl }}/events">Events</a></li>
+        <li class="{{page.calendar}}"><a href="{{ site.baseurl }}/calendar">Calendar</a></li>
+        <li class="{{page.contact}}"><a href="{{ site.baseurl }}/contact">Contact Us</a></li>
+        <li><a href="#">Sign Up</a></li>
+        <li><a href="#">Donate</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>

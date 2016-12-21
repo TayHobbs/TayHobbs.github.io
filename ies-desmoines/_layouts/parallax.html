@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}</title>
+      <meta name="viewport" content="width=device-width">
+      <meta name="description" content="{{ site.description }}">
+      <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
+
+      <link rel="stylesheet" href="{{ "/css/parallax.css" | prepend: site.baseurl }}">
+    <link rel="stylesheet" href="{{ site.baseurl }}/bootstrap/bootstrap.css">
+    <link rel="stylesheet" href="{{ site.baseurl }}/css/calendar.css">
+    <link rel="stylesheet" href="{{ site.baseurl }}/css/calendar-flat.css">
+  </head>
+
+  <body>
+    <nav>
+    <div id="logo">
+      <a href="/{{site.baseurl}}">
+        <img src="{{site.baseurl}}/images/headerlogo.png" alt="ISE Des Moines">
+      </a>
+    </div>
+    <div id="links">
+      <ul>
+        <li class="{{page.events}}"><a href="{{ site.baseurl }}/events">Events</a></li>
+        <li class="{{page.calendar}}"><a href="{{ site.baseurl }}/calendar">Calendar</a></li>
+        <li class="{{page.contact}}"><a href="{{ site.baseurl }}/contact">Contact Us</a></li>
+        <li><a href="#">Sign Up</a></li>
+        <li><a href="#">Donate</a></li>
+      </ul>
+    </div>
+
+    </nav>
+    <main>
+        <section class="module parallax parallax-1">
+          <div>
+            <h1>IES Des Moines</h1>
+          </div>
+        </section>
+        <div id="welcome">
+          <h4>Welcome to IES Des Moines</h4>
+          <p>
+            The Charlotte Section of the Illuminating Engineering Society is the technical authority on illumination who caters to all lighting professionals. The IES, a non-profit membership organization, sets out to improve the lighted environment by bringing together those with lighting knowledge and by translating that knowledge into actions that benefit the general populace. The Illuminating Engineering Society was founded in 1906 to establish scientific lighting recommendations and to advance knowledge of the the lighted environment for the benefit and improvement of society.
+          </p>
+          <p>
+          The Charlotte IES section's vision is to build upon a century of outstanding excellence to create a premier lighting community that’s dedicated to promoting the art and science of lighting to its members, allied profession organizations and to the public through inspiring events and through informative programs, presentations and networking events.
+          </p>
+        </div>
+
+
+        <section class="module parallax parallax-2">
+          <div>
+            <h1>PICTURE 2</h1>
+          </div>
+        </section>
+
+        <section class="module parallax parallax-3">
+          <div>
+            <h1>PICTURE 3</h1>
+          </div>
+        </section>
+
+    </main>
+  </body>
+</html>
+<div>
+</div>

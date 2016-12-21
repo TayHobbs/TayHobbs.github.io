@@ -1,0 +1,13 @@
+# Site settings
+title: Taylor Hobbs
+email: hobbstay@gmail.com
+description: "Chronicling my journey in software and web development."
+baseurl: ""
+url: "http://yourdomain.com"
+twitter_username: taylorkjh
+github_username:  TayHobbs
+highlighter: rouge
+
+# Build settings
+markdown: kramdown
+permalink: pretty

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+  {% include head.html %}
+
+  <body>
+
+    {% include header.html %}
+    <img id="homepage-image" src="{{site.baseurl}}/images/Nairobi_City_web.jpg" alt="">
+
+    <div class="page-content">
+      <div class="container">
+        <div class="row">
+          <div id="welcome" class="col-lg-9">
+            <h4>Welcome to IES Des Moines</h4>
+            <p>
+              The Charlotte Section of the Illuminating Engineering Society is the technical authority on illumination who caters to all lighting professionals. The IES, a non-profit membership organization, sets out to improve the lighted environment by bringing together those with lighting knowledge and by translating that knowledge into actions that benefit the general populace. The Illuminating Engineering Society was founded in 1906 to establish scientific lighting recommendations and to advance knowledge of the the lighted environment for the benefit and improvement of society.
+            </p>
+
+            <p>
+            The Charlotte IES section's vision is to build upon a century of outstanding excellence to create a premier lighting community that’s dedicated to promoting the art and science of lighting to its members, allied profession organizations and to the public through inspiring events and through informative programs, presentations and networking events.
+            </p>
+          </div>
+          <div id="homepage-announcements" class="col-lg-3">
+            <h4>Announcements</h4>
+            <h5><a href="events">Call For Speakers</a></h5>
+            <p><a href="events">Click here to see more announcements</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% include footer.html %}
+    <script src="{{ site.baseurl }}/js/jquery-2.1.1.min.js"></script>
+    <script src="{{ site.baseurl }}/js/bootstrap.min.js"></script>
+  <body>
+</html>

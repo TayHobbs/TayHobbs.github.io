@@ -1,0 +1,50 @@
+---
+layout: post
+title:  "Why I Blog (Or, more accurately: Why I don't blog)"
+date:   2016-06-12 20:51:32
+image: "../../../../../../../images/why.jpeg"
+categories: blogging
+---
+
+## It's Been Awhile
+
+It's been a long time since I've written a new blog post. A little over a year in fact. I've been very busy in the last year: I started
+school part-time to get my degree, began handling more responsibilities at work, and have more recently been looking for an apartment.
+The main reason I have not written a blog post in so long, however, is that I not have felt like I have anything to write that would
+give benefit to anyone else. This is not to say that I have not been learning in the last year, this last year has probably been the most
+educational year I've had. I simply felt that I was not learning anything that other people have not covered in countless other blogs. However,
+I've had a change of heart.
+
+### Why I Write Blog Posts
+
+Recently, I've been reflecting on the reasons to write blog posts. Generally, I think people write blog posts because they want to teach
+others, or to gain some sort of following or fame. If these are the reasons that I write blog posts, then I would continue to
+not write any. I believe that these are definitely the reasons that I have written blog posts in the past, but this is shallow
+and leads to months or years without the motivation to write a new blog post because of how little the previous posts have been read.
+Now, my motivation is different, though.
+
+This blog is no longer for anyone else, but me.
+
+Wait! That doesn't mean you have to stop reading immediately,
+it just means that I'm not going to feel like I have to please you with each lovingly crafted word.
+
+I have always had a desire to write. Books, short stories, blogs, any kind of writing interests me, but I find blog posts to be my favorite medium. When I
+created my blog I felt a strange pressure to only write about programming related subjects simply because that is my career, though.
+Because of that I have not been writing, for the reasons I have already stated. The world doesn't need another programming blog. I have many other
+interests that I partake in on a daily basis and some of them I may want to write about. Since this blog is now for me, I think I will write about them.
+
+### What This Blog is Now
+
+Now, this blog is whatever I feel like at the time. I may write about a section of a book I'm reading that interested me, a really cool level in a game
+that I felt was innovative in some way, a new workout that I recently discovered and has shown me a lot of benefits, a new programming trick I discovered.
+Truly, I am going to write about as much as possible. In the end, I believe this blog will turn into a diary and reference of some sort. Programming
+posts will probably document something I want to be able to find easily in the future. Tutorial posts will probably be written to help me further cement
+my learning of a specific topic. Other posts may simply be used as writing exercises to challenge my, albeit limited, writing skills.
+
+To kick of this "Grand Re-Opening" of the blog, I am going to exercise some discipline and actually try to participate in writing more frequently, since
+I have always had a desire for it. During this summer I am going to write one blog post per week. It may not be long, it may not be good, but it will be up on
+the site fresh and ready to be read. At the end of the summer I can asses if I actually like writing or if it truly was "just a phase".
+
+Thank you for reading this lengthy brain dump of my thoughts over the last few months. I hope you enjoyed it and that you'll check back here from time to time.
+
+Or don't, this blog isn't for you anyway.
