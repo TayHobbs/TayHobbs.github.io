@@ -12,7 +12,3 @@ I've done Python tutorials and I enjoy the language, but I'm not too familiar wi
 I've never used Ember at all, and I'm not a fan of Javascript at all, but I'm willing to learn.
 
 To start out though they have me building static websites for customers using Jeykll, and Bootstrap for the CSS styling. I'm also learning to get familiar with Github, all of which I'm now using for this blog.
-
-
-
-
