@@ -2,5 +2,6 @@
 _site/
 coffee/
 js/
+!portfolio/js
 bower_components/
 node_modules/
