@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Taylor Hobbs Portfolio</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <link rel="stylesheet" type="text/css" href="css/semantic.min.css">
+  </head>
+  <body>
+    <header>
+      <h2 class="ui left floated header">
+          Taylor Hobbs
+          <i id="green" class="tiny code icon"></i>
+      </h2>
+      <h2 class="ui right floated header">
+        <span id="teal">Blog</span>
+      </h2>
+    </header>
+    <div id="nav" class="ui secondary teal pointing menu">
+      <a href="index.html" class="item">
+        Home
+      </a>
+      <a href="about.html" class="item">
+        About
+      </a>
+      <a class="active item">
+        Blog
+      </a>
+      <a href="portfolio.html" class="item">
+        Portfolio
+      </a>
+      <a href="style-guide.html" class="item">
+        Style Guide
+      </a>
+    </div>
+    <div class="ui grid">
+      <div class="row">
+        <div class="column">
+          <div class="ui dividing large header">
+            <span id="teal">Testing in React</span>
+            <h3 class="ui sub header">2016/10/28</h3>
+          </div>
+          <p>When I use a Javascript framework, I primarily use Ember. Ember was my first Javascript framework and I am very experienced with it and its idioms. For the most part, I have enjoyed working with Ember and I am able to build apps quickly with it. However, I also enjoy seeing what other frameworks have to offer and I see a lot of people talking about React. So I decided to build an application using React. Something that is very important to me when developing any app, in any framework, is the ability to test it quickly and easily. With Ember, Ember-CLI makes it extremely easy to get up and running with tests. <a class="external-link" href="https://reactjs.org/docs/test-utils.html" target="_blank">There is a section</a> on testing in the React documentation, so I thought that testing may be a quick and simple process like it is in Ember. It was not quite as straight forward as I had hoped.</p>
+          <h4>Using Jest</h4>
+          <p>The ReactTestUtils makes it extremely simple to use whatever testing framework you prefer. The docs state that <a class="external-link" href="https://facebook.github.io/jest/" target="_blank">Jest</a> is what they use, so naturally I tried this first. At first Jest was handling all of my issues flawlessly, but after I started writing more and more components, I realized this was because I was only using examples from the initial Jest tutorial page. After I started getting more complicated, I found Jest to be less intuitive than I had initially thought. I was getting frustrated, spending more time trying to figure out how to test my code than actually writing any real production code. I started looking for alternatives, which is when I found <a class="external-link" href="http://airbnb.io/enzyme/" target="_blank">Enzyme</a> by <a class="external-link" href="https://www.airbnb.com/" target="_blank">airbnb</a>.</p>
+          <h4>Enzyme</h4>
+          <p>React actually lists Enzyme as an alternative in their <a class="external-link" href="https://semaphoreci.com/community/tutorials/testing-react-components-with-enzyme-and-mocha" target="_blank">tutorial</a>. I decided to give it a shot. At first I was unsure how to go about replacing Jest with Enzyme, but then I found a very helpful tutorial about how to do exactly that. Using this tutorial as my guide I was actually able to switch out the testing framework in about an hour. I enjoy using Enzyme a lot more than using Jest. I find it to be much more intuitive to me. Now I can spend my time actually writing real code and using my testing suite to support it, rather than spending my time fighting the testing framework.</p>
+          <p>After a couple weeks of using React, I have really been enjoying it. One thing I would love to see is some sort of command line interface or build tooling, like Ember-CLI. I look forward to using React in more future projects and watching the ecosystem grow. I think there are some really interesting problems being solved in the React atmosphere.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="column">
+          <div class="ui dividing large header">
+            <span id="teal">Basic Ember App</span>
+            <h3 class="ui sub header">2016/5/15</h3>
+          </div>
+          <p>With the coming of Ember-CLI, I would recommend you use it, rather than rolling your own solution with Grunt or Gulp like you would need to with this guide.</p>
+          <p>Writing a basic Ember.js application is simple… After you spend 2 weeks memorizing all the naming conventions. After banging my head against a wall seemingly forever, I've finally gotten over the initial hump. I know there are hundreds of Ember tutorials on the internet, but I'd like to take my shot at it, if only for myself. So,</p>
+          <h4>Step 1:</h4>
+          <p>Make sure you include jQuery, Handlebars, and Ember Easy enough.</p>
+          <h4>Step 2:</h4>
+          <p>In an app.js file, create the app like so.<p>
+          <pre>
+            App = Ember.Application.create({});
+          </pre>
+          <p>"App" can obviously be anything you want, but it's what Ember will use to reference your application from here on out, so choose wisely.
+          <h4>Step 3:</h4>
+          <p>Next we have to create our router, one of the major benefits to Ember is the router, using this we are able to maintain state easily. Making one is simple enough, but it's where the naming conventions start to get confusing.</p>
+          <pre>
+            App.Router.map(function(){
+            });
+          </pre>
+          <p>That's it, I'm going to make a simple route called “index”</p>
+
+          <pre>
+            App.Router.map(function(){
+              this.resource('index');
+            });
+          </pre>
+          <p>Now we have a route at www.example.com/#/index, but we're missing a template to render it!</p>
+          <h4>Step 4:</h4>
+          <p>We need somewhere to render our index route, for this we'll need a html file. In the file we'll make a handlebars script and give it a “data-template-name” this tells Ember wich route to render to this template.</p>
+          <pre>
+            &lt;script type="text/x-handlebars" data-template-name="index">
+            <--!content-->
+            &lt;/script>
+          </pre>
+          <p>That's all it takes! You have an Ember application. Not an exciting one, but we'll get there.</p>
+          <h4>Step 5:</h4>
+          <p>I'd like to show how nesting routes works, so I'm going to change our “index” route to “parent” and nest a “child” route right below it.</p>
+
+          <pre>
+            App.Router.map(function(){
+              this.resource('parent', function(){
+                this.resource('child');
+              });
+            });
+          </pre>
+          This will change our url to be www.example.com/#/parent for the “parent” route and www.example.com/#/parent/child for the “child” route.</p>
+          <h4>Step 6:</h4>
+          We probably want our routes to actually show something, rather than just blank pages. This is extremely easy, simply return an array from our model like so:</p>
+          <pre>
+            App.ChildRoute = Ember.Route.extend({
+              model: function() {
+                return ['jquery', 'handlebars', 'ember']
+              }
+            });
+          </pre>
+          <p>Notice that while in the router child is lowercase, in our route we capitalize it and smash it next to Route, this is how ember knows which route you want to make a model for. Our model is returning the requirements for Ember, but we need to show them on our child route template, we're going to loop over the array and show it in a list format.
+
+          <pre>
+            &lt;script type="text/x-handlebars" data-template-name="child">
+              &lt;ul>
+                &lt;li>&lt;/li>
+              &lt;/ul>
+            &lt;/script>
+          </pre>
+          <p>With that we've got our app returning our dependencies. Lastly, we need to link to the child route from our parent route. This is fairly simple, all we have to do is pass the name of our route to a handlebars link-to.</p>
+          <h4>Step 7:</h4>
+
+          <pre>
+            &lt;script type="text/x-handlebars" data-template-name="parent">
+            {{#link-to 'child'}}Show Ember requirements{{/link-to}}
+            &lt;/script>
+          </pre>
+          <p>Our Ember application is now complete. This obviously is a simple example, there are many things I haven't touched on at all, but this is enough to get anyone started.</p>
+          <p>Now go out there and do something amazing.</p>
+          <p>You can find a working example of this code in this <a class="external-link" href="http://emberjs.jsbin.com/ticoce/1#/parent/" target="_blank">JSbin</a>.</p>
+        </div>
+      </div>
+    </div>
+    <script
+      src="https://code.jquery.com/jquery-3.1.1.min.js"
+      integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+      crossorigin="anonymous"></script>
+    <script src="js/semantic.min.js"></script>
+  </body>
+</html>
+
