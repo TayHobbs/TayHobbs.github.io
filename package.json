@@ -1,11 +1,9 @@
 {
   "name": "workout_log",
   "dependencies": {
-    "bower": "*",
-    "coffee-script": "*"
-  },
-  "scripts": {
-    "postinstall": "bower install"
+    "coffee-script": "*",
+    "jquery": "*",
+    "bootstrap": "*"
   },
   "devDependencies": {
     "phantomjs": "^1.9.7-15",

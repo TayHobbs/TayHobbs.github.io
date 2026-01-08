@@ -1,13 +1,15 @@
 ---
 layout: page
-title: About Taylor
+title: About Me
 image: "../images/about.jpeg"
 permalink: /about/
 ---
 
-I am currently an Engineering Manager, working on building awesome software. When I'm not at work, I enjoy being active in the open source community, working on personal programming projects using [Python](https://www.python.org/), [Ruby](https://www.ruby-lang.org/en/) and [Rails](http://rubyonrails.org/),
-[Javascript](https://www.javascript.com/) and its numerous frameworks (especially [React](https://facebook.github.io/react/)).
-I also enjoy spending my time reading books (programing related and otherwise), cooking and baking, and playing a video game or two.
+I'm a software engineer who builds software across the stack, primarily working in [Python](https://www.python.org/), [Golang](https://go.dev/), [Ruby](https://www.ruby-lang.org/en/)/[Rails](http://rubyonrails.org/), and [Javascript](https://www.javascript.com/) (especially [React](https://facebook.github.io/react/) with [TypeScript](https://www.typescriptlang.org/)). I focus on writing clean code using TDD, solving problems, and shipping features that work.
 
 
-If you want to contact me to talk about what I've been working on recently, what I've been reading or playing, exchange recipes, or anything else, send me an <a href='mailto:hobbstay@gmail.com'>email</a>.
+I've architected ML pipelines, led integrations that measurably improved performance, and rearchitectured platforms to make them more reliable. I believe in engineering practices that help teams ship faster without breaking things.
+
+When I'm not writing code, I contribute to open source projects, cook and bake, play video games, and read extensively (programming books and otherwise).
+
+If you want to talk about what I'm working on, swap book recommendations, exchange recipes, or discuss anything else, send me an <a href='mailto:hobbstay@gmail.com'>email</a>.
