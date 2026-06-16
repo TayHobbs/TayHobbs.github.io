@@ -35,7 +35,7 @@
   var W = 0, H = 0;
 
   var CHARS = '01{}();=<>/*#|\\+-~$%&_@!?[]'.split('');
-  var COUNT = 350;
+  var COUNT = 2500;
   var MOUSE_R = 130;
   var MOUSE_S = 1.4;
   var SPRING = 0.055;
@@ -46,6 +46,14 @@
   var mouse = { x: -9999, y: -9999 };
   var morphing = false;
   var particles = [];
+  var animInterval = null;
+  var GAME_MODE = false;
+  var asciiCache = {};
+  var disperseTimer = null;
+  var disperseCleanTimer = null;
+  var morphSpring = 0.25;
+  var disperseMode = false;
+
 
   function Particle() {
     this.char = CHARS[(Math.random() * CHARS.length) | 0];
@@ -53,7 +61,7 @@
     this.y = Math.random() * H;
     this.vx = (Math.random() - 0.5) * 2;
     this.vy = (Math.random() - 0.5) * 2;
-    this.base = 0.45 + Math.random() * 0.3;
+    this.base = 0.12 + Math.random() * 0.1;
     this.alpha = this.base;
     this.tx = null;
     this.ty = null;
@@ -62,9 +70,11 @@
   Particle.prototype.update = function () {
     if (morphing && this.tx !== null) {
       var dx = this.tx - this.x, dy = this.ty - this.y;
-      this.vx += dx * SPRING;
-      this.vy += dy * SPRING;
-      this.alpha += (0.85 - this.alpha) * 0.05;
+      this.vx += dx * morphSpring;
+      this.vy += dy * morphSpring;
+      this.vx *= 0.2;
+      this.vy *= 0.2;
+      this.alpha += ((disperseMode ? this.base : 0.85) - this.alpha) * 0.05;
     } else {
       var dx2 = this.x - mouse.x, dy2 = this.y - mouse.y;
       var dsq = dx2 * dx2 + dy2 * dy2;
@@ -76,10 +86,10 @@
       }
       this.vx += (Math.random() - 0.5) * 0.15;
       this.vy += (Math.random() - 0.5) * 0.15;
+      this.vx *= DAMP;
+      this.vy *= DAMP;
       this.alpha += (this.base - this.alpha) * 0.03;
     }
-    this.vx *= DAMP;
-    this.vy *= DAMP;
     this.x += this.vx;
     this.y += this.vy;
     if (this.x < -20) this.x = W + 20;
@@ -90,7 +100,11 @@
 
   Particle.prototype.draw = function () {
     ctx.globalAlpha = Math.max(0, Math.min(1, this.alpha));
-    ctx.fillText(this.char, this.x, this.y);
+    if (GAME_MODE && this.tx !== null) {
+      ctx.fillRect(this.x - 3, this.y - 3, 7, 7);
+    } else {
+      ctx.fillText(this.char, this.x, this.y);
+    }
   };
 
   function resize() {
@@ -146,6 +160,7 @@
   }
 
   function morph(word, shape, side) {
+    cancelDisperse();
     var pts = sample(word, shape || null, side || 'left');
     if (!pts.length) return;
     for (var i = 0; i < particles.length; i++) {
@@ -156,12 +171,188 @@
     morphing = true;
   }
 
+  function sampleController(side) {
+    var off = document.createElement('canvas');
+    off.width = W; off.height = H;
+    var oc = off.getContext('2d');
+
+    var cx = side === 'right' ? Math.round(W * 0.75) : Math.round(W * 0.25);
+    var cy = Math.round(H * 0.42);
+    var bw = Math.min(W * 0.40, H * 0.52);
+    var bh = bw * 0.52;
+    var lw = Math.max(6, Math.round(bw * 0.018));
+
+    oc.strokeStyle = '#fff';
+    oc.lineWidth = lw;
+    oc.lineCap = 'round';
+    oc.lineJoin = 'round';
+
+    // Main body rounded rectangle
+    var bodyR = bh * 0.22;
+    oc.beginPath();
+    oc.moveTo(cx - bw / 2 + bodyR, cy - bh / 2);
+    oc.arcTo(cx + bw / 2, cy - bh / 2, cx + bw / 2, cy + bh / 2, bodyR);
+    oc.arcTo(cx + bw / 2, cy + bh / 2, cx - bw / 2, cy + bh / 2, bodyR);
+    oc.arcTo(cx - bw / 2, cy + bh / 2, cx - bw / 2, cy - bh / 2, bodyR);
+    oc.arcTo(cx - bw / 2, cy - bh / 2, cx + bw / 2, cy - bh / 2, bodyR);
+    oc.closePath();
+    oc.stroke();
+
+    // Left shoulder button
+    var tabW = bw * 0.24, tabH = bh * 0.16;
+    oc.strokeRect(cx - bw * 0.47,        cy - bh / 2 - tabH * 0.6, tabW, tabH);
+    // Right shoulder button
+    oc.strokeRect(cx + bw * 0.23,        cy - bh / 2 - tabH * 0.6, tabW, tabH);
+
+    // Cable connector nub (top center)
+    var cabW = bw * 0.07, cabH = bh * 0.18;
+    oc.strokeRect(cx - cabW / 2, cy - bh / 2 - cabH, cabW, cabH);
+
+    // D-pad (two overlapping rects forming a cross)
+    var dpCx = cx - bw * 0.28, dpCy = cy - bh * 0.02;
+    var arm = bh * 0.13, len = bh * 0.35;
+    oc.strokeRect(dpCx - arm, dpCy - len, arm * 2, len * 2);
+    oc.strokeRect(dpCx - len, dpCy - arm, len * 2, arm * 2);
+
+    // Face buttons — hexagons in diamond (X top, Y left, A right, B bottom)
+    var fpCx = cx + bw * 0.26, fpCy = cy - bh * 0.02;
+    var br = bh * 0.09, bs = bh * 0.22;
+    function hexBtn(hx, hy) {
+      oc.beginPath();
+      for (var k = 0; k < 6; k++) {
+        var a = k * Math.PI / 3 - Math.PI / 6;
+        var px = hx + br * Math.cos(a), py = hy + br * Math.sin(a);
+        k === 0 ? oc.moveTo(px, py) : oc.lineTo(px, py);
+      }
+      oc.closePath();
+      oc.stroke();
+    }
+    hexBtn(fpCx,       fpCy - bs);
+    hexBtn(fpCx - bs,  fpCy);
+    hexBtn(fpCx + bs,  fpCy);
+    hexBtn(fpCx,       fpCy + bs);
+
+    // Select + Start (small rects center)
+    var sbw = bw * 0.09, sbh = bh * 0.07;
+    oc.strokeRect(cx - sbw - bw * 0.05, cy + bh * 0.08, sbw, sbh);
+    oc.strokeRect(cx + bw * 0.05,       cy + bh * 0.08, sbw, sbh);
+
+    var data = oc.getImageData(0, 0, W, H).data;
+    var pts = [];
+    var step = 5;
+    for (var sy = 0; sy < H; sy += step) {
+      for (var sx = 0; sx < W; sx += step) {
+        if (data[(sy * W + sx) * 4 + 3] > 100) pts.push({ x: sx, y: sy });
+      }
+    }
+    for (var i = pts.length - 1; i > 0; i--) {
+      var j = (Math.random() * (i + 1)) | 0;
+      var tmp = pts[i]; pts[i] = pts[j]; pts[j] = tmp;
+    }
+    return pts;
+  }
+
+  function sampleAsciiArt(artText, side) {
+    var lines = artText.split('\n');
+    while (lines.length && lines[lines.length - 1].trim() === '') lines.pop();
+    var maxCols = 0;
+    for (var r = 0; r < lines.length; r++) {
+      if (lines[r].length > maxCols) maxCols = lines[r].length;
+    }
+    if (!maxCols || !lines.length) return [];
+    // Monospace chars are ~0.5× as wide as tall; preserve that aspect ratio
+    var charAspect = 0.5;
+    var regionW = W * 0.45;
+    var regionH = H * 0.60;
+    var cellH = Math.min(regionW / (maxCols * charAspect), regionH / lines.length);
+    var cellW = cellH * charAspect;
+    var artW = maxCols * cellW;
+    var artH = lines.length * cellH;
+    var offsetX = side === 'right' ? W * 0.5 + (W * 0.5 - artW) / 2 : (W * 0.5 - artW) / 2;
+    var offsetY = (H - artH) / 2;
+    var pts = [];
+    for (var row = 0; row < lines.length; row++) {
+      for (var col = 0; col < lines[row].length; col++) {
+        if (lines[row][col] !== ' ') {
+          pts.push({ x: offsetX + col * cellW, y: offsetY + row * cellH });
+        }
+      }
+    }
+    for (var i = pts.length - 1; i > 0; i--) {
+      var j = (Math.random() * (i + 1)) | 0;
+      var tmp = pts[i]; pts[i] = pts[j]; pts[j] = tmp;
+    }
+    return pts;
+  }
+
+  function morphAsciiArt(artText, side) {
+    cancelDisperse();
+    var pts = sampleAsciiArt(artText, side);
+    if (!pts.length) return;
+    GAME_MODE = false;
+    for (var i = 0; i < particles.length; i++) {
+      var pt = pts[i % pts.length];
+      particles[i].tx = pt.x;
+      particles[i].ty = pt.y;
+    }
+    morphing = true;
+  }
+
+  function fetchAndMorphAsciiArt(path, side) {
+    if (asciiCache[path]) { morphAsciiArt(asciiCache[path], side); return; }
+    fetch(path)
+      .then(function (r) { return r.text(); })
+      .then(function (text) { asciiCache[path] = text; morphAsciiArt(text, side); });
+  }
+
+  function morphController(side) {
+    cancelDisperse();
+    GAME_MODE = false;
+    var pts = sampleController(side);
+    if (!pts.length) return;
+    for (var i = 0; i < particles.length; i++) {
+      particles[i].tx = pts[i % pts.length].x;
+      particles[i].ty = pts[i % pts.length].y;
+    }
+    morphing = true;
+  }
+
+  function cancelDisperse() {
+    if (disperseTimer) { clearTimeout(disperseTimer); disperseTimer = null; }
+    if (disperseCleanTimer) { clearTimeout(disperseCleanTimer); disperseCleanTimer = null; }
+    morphSpring = 0.25;
+    disperseMode = false;
+  }
+
   function unmorph() {
+    if (animInterval) { clearInterval(animInterval); animInterval = null; }
+    cancelDisperse();
+    GAME_MODE = false;
     morphing = false;
     for (var i = 0; i < particles.length; i++) {
       particles[i].tx = null;
       particles[i].ty = null;
     }
+    disperseTimer = setTimeout(function () {
+      disperseTimer = null;
+      morphSpring = 0.125;
+      disperseMode = true;
+      for (var i = 0; i < particles.length; i++) {
+        particles[i].tx = Math.random() * W;
+        particles[i].ty = Math.random() * H;
+      }
+      morphing = true;
+      disperseCleanTimer = setTimeout(function () {
+        disperseCleanTimer = null;
+        morphSpring = 0.25;
+        disperseMode = false;
+        morphing = false;
+        for (var i = 0; i < particles.length; i++) {
+          particles[i].tx = null;
+          particles[i].ty = null;
+        }
+      }, 1800);
+    }, 2000);
   }
 
   function loop() {
@@ -186,7 +377,7 @@
 
   var allParas = document.querySelectorAll('.post-content > p');
 
-  var targets = document.querySelectorAll('[data-particle-word]');
+  var targets = document.querySelectorAll('[data-particle-word], [data-particle-art]');
   for (var i = 0; i < targets.length; i++) {
     (function (el) {
       var para = el.parentNode;
@@ -194,7 +385,13 @@
       var idx = para ? Array.prototype.indexOf.call(allParas, para) + 1 : 1;
       var side = (idx % 2 === 1) ? 'left' : 'right';
       el.addEventListener('mouseenter', function () {
-        morph(el.dataset.particleWord, el.dataset.particleShape || null, side);
+        if (el.dataset.particleArt) {
+          fetchAndMorphAsciiArt(el.dataset.particleArt, side);
+        } else if (el.dataset.particleAnimate === 'invader') {
+          morphController(side);
+        } else {
+          morph(el.dataset.particleWord, el.dataset.particleShape || null, side);
+        }
       });
       el.addEventListener('mouseleave', unmorph);
     }(targets[i]));
@@ -202,6 +399,16 @@
 
   init();
   loop();
+
+  // Preload all ASCII art files referenced on the page
+  var artEls = document.querySelectorAll('[data-particle-art]');
+  for (var k = 0; k < artEls.length; k++) {
+    (function (path) {
+      if (path && !asciiCache[path]) {
+        fetch(path).then(function (r) { return r.text(); }).then(function (text) { asciiCache[path] = text; });
+      }
+    }(artEls[k].dataset.particleArt));
+  }
 
   // Scroll reveal + auto-morph for paragraphs
   if (allParas.length && 'IntersectionObserver' in window) {
@@ -216,12 +423,18 @@
 
     var morphObs = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
-        var span = entry.target.querySelector('[data-particle-word]');
+        var span = entry.target.querySelector('[data-particle-word], [data-particle-art]');
         if (!span) return;
         if (entry.isIntersecting) {
           var idx = Array.prototype.indexOf.call(allParas, entry.target) + 1;
           var side = (idx % 2 === 1) ? 'left' : 'right';
-          morph(span.dataset.particleWord, span.dataset.particleShape || null, side);
+          if (span.dataset.particleArt) {
+            fetchAndMorphAsciiArt(span.dataset.particleArt, side);
+          } else if (span.dataset.particleAnimate === 'invader') {
+            morphController(side);
+          } else {
+            morph(span.dataset.particleWord, span.dataset.particleShape || null, side);
+          }
         } else {
           unmorph();
         }
