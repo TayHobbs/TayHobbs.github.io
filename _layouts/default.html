@@ -8,16 +8,10 @@
 
     {% include header.html %}
     <header class="post-header" style="background-image: url({{ page.image | prepend: site.baseurl }});">
-      <h1 class="centered title">{{ page.title }}</h1>
+      <h1 class="centered title">{% if page.title_bold %}{{ page.title | remove: page.title_bold }}<strong>{{ page.title_bold }}</strong>{% else %}{{ page.title }}{% endif %}</h1>
     </header>
     <div class="page-content">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-12">
-            {{ content }}
-          </div>
-        </div>
-      </div>
+      {{ content }}
     </div>
 
     {% include footer.html %}
@@ -290,10 +284,16 @@
     var pts = sampleAsciiArt(artText, side);
     if (!pts.length) return;
     GAME_MODE = false;
+    // Cap at 3 particles per target point so sparse art doesn't create blobs
+    var assignCount = Math.min(particles.length, pts.length * 3);
     for (var i = 0; i < particles.length; i++) {
-      var pt = pts[i % pts.length];
-      particles[i].tx = pt.x;
-      particles[i].ty = pt.y;
+      if (i < assignCount) {
+        particles[i].tx = pts[i % pts.length].x;
+        particles[i].ty = pts[i % pts.length].y;
+      } else {
+        particles[i].tx = null;
+        particles[i].ty = null;
+      }
     }
     morphing = true;
   }
@@ -352,7 +352,7 @@
           particles[i].ty = null;
         }
       }, 1800);
-    }, 2000);
+    }, 1500);
   }
 
   function loop() {
@@ -385,6 +385,7 @@
       var idx = para ? Array.prototype.indexOf.call(allParas, para) + 1 : 1;
       var side = (idx % 2 === 1) ? 'left' : 'right';
       el.addEventListener('mouseenter', function () {
+        el.classList.remove('glow-hint');
         if (el.dataset.particleArt) {
           fetchAndMorphAsciiArt(el.dataset.particleArt, side);
         } else if (el.dataset.particleAnimate === 'invader') {
@@ -435,15 +436,16 @@
           } else {
             morph(span.dataset.particleWord, span.dataset.particleShape || null, side);
           }
+          span.classList.add('glow-hint');
         } else {
           unmorph();
         }
       });
     }, { threshold: 0.4 });
 
-    allParas.forEach(function (el) {
+    allParas.forEach(function (el, i) {
       revealObs.observe(el);
-      morphObs.observe(el);
+      if (i === 0) morphObs.observe(el);
     });
   }
 }());

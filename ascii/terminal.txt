@@ -1,0 +1,22 @@
+.--------------------------------------------------------.
+|  o  o  o                          zsh  ~  80x24        |
+|--------------------------------------------------------|
+|                                                        |
+|  $ ls -la                                              |
+|  total 64                                              |
+|  drwxr-xr-x  12 taylor  staff   384  Jun 16 14:23  .   |
+|  drwxr-xr-x   8 taylor  staff   256  Jun 14 09:11 ..   |
+|  -rw-r--r--   1 taylor  staff  1823  Jun 16  index.md  |
+|  drwxr-xr-x   4 taylor  staff   128  Jun 15  _layouts  |
+|  drwxr-xr-x   3 taylor  staff    96  Jun 15  _posts    |
+|  -rw-r--r--   1 taylor  staff  4521  Jun 16  main.css  |
+|                                                        |
+|  $ git diff --stat                                     |
+|   _layouts/default.html | 47 ++++++++++++-----         |
+|   css/main.css          |  8 +++--                     |
+|   index.md              |  2 +-                        |
+|   3 files changed, 45 insertions(+), 12 deletions(-)   |
+|                                                        |
+|  $                                                     |
+|                                                        |
+'--------------------------------------------------------'

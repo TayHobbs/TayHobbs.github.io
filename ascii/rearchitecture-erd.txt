@@ -1,0 +1,23 @@
+     === PLATFORM REARCHITECTURE ERD ===
+
++--------------------+  1:*  +--------------------+
+|     PLATFORM       |------>|     SERVICE        |
+|--------------------|       |--------------------|
+| id         [PK]    |       | id         [PK]    |
+| name        str    |       | platform_id[FK]    |
+| version     int    |       | name        str    |
+| arch_version str   |       | endpoint    str    |
+| migrated_at date   |       | status      str    |
++--------------------+       +--------------------+
+          |                            |
+          | 1:*                        | 1:*
+          v                            v
++--------------------+       +--------------------+
+|       TEAM         |       |       EVENT        |
+|--------------------|       |--------------------|
+| id         [PK]    |       | id         [PK]    |
+| platform_id[FK]    |       | service_id [FK]    |
+| name        str    |       | type        str    |
+| role        str    |       | payload     json   |
+| joined_at   date   |       | created_at  date   |
++--------------------+       +--------------------+

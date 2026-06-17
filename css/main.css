@@ -527,15 +527,20 @@ text-align: center;
 
 .title {
     margin: 0;
-    text-align: center;
+    text-align: left;
+    padding-left: 13vw;
     font-family: 'Josefin Sans', sans-serif;
     font-size: clamp(4rem, 9vw, 11rem);
     font-weight: 100;
     letter-spacing: 0.25em;
-    text-indent: 0.25em;
     text-transform: uppercase;
     text-shadow: none;
     color: #c9d1d9;
+}
+
+.title strong {
+    font-weight: 700;
+    letter-spacing: 0.0005em;
 }
 
 .nav-toggle {
@@ -625,15 +630,40 @@ text-align: center;
   z-index: 3;
 }
 
-[data-particle-word] {
-  border-bottom: 2px dotted rgba(57, 211, 83, 0.5);
-  cursor: crosshair;
-  transition: color 0.3s;
-  padding-bottom: 0.05em;
+@keyframes underline-draw {
+  0%   { background-size: 0% 2px;   background-position: 0% 100%; }
+  45%  { background-size: 100% 2px; background-position: 0% 100%; }
+  55%  { background-size: 100% 2px; background-position: 100% 100%; }
+  100% { background-size: 0% 2px;   background-position: 100% 100%; }
 }
 
-[data-particle-word]:hover {
+[data-particle-word],
+[data-particle-art] {
   color: #39d353;
+  font-size: 1.1em;
+  cursor: crosshair;
+  transition: color 0.3s;
+}
+
+.glow-hint {
+  background-image: linear-gradient(#39d353, #39d353);
+  background-repeat: no-repeat;
+  animation: underline-draw 2.4s ease-in-out 1 forwards;
+}
+
+[data-particle-word]:hover,
+[data-particle-art]:hover {
+  color: #7ee787;
+}
+
+[data-particle-word] a,
+[data-particle-art] a {
+  color: #39d353;
+}
+
+[data-particle-word]:hover a,
+[data-particle-art]:hover a {
+  color: #7ee787;
 }
 
 .post-header {
