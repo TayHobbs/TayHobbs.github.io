@@ -20,7 +20,7 @@ body {
   width: 100%;
   font-size: 20px;
   line-height: 1.5;
-  font-weight: 300;
+  font-weight: 400;
   color: #c9d1d9 !important;
   background-color: #0d0d0d !important;
   font-family: 'Josefin Sans', sans-serif;
@@ -541,6 +541,90 @@ text-align: center;
 .title strong {
     font-weight: 700;
     letter-spacing: 0.0005em;
+}
+
+/* Justified title block */
+
+.title-block {
+    width: min(88vw, 980px);
+    margin: 0 auto;
+    user-select: none;
+}
+
+.title-meta {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 36px;
+}
+
+.title-monogram {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: rgba(201, 209, 217, 0.28);
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.title-meta-rule {
+    flex: 1;
+    height: 1px;
+    background: rgba(201, 209, 217, 0.12);
+}
+
+.title-row {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: clamp(3.6rem, 10.5vw, 11rem);
+    line-height: 1.05;
+    text-transform: uppercase;
+    letter-spacing: 0;
+}
+
+.title-row.title-first {
+    font-weight: 100;
+    color: rgba(201, 209, 217, 0.82);
+    margin-bottom: 4px;
+}
+
+.title-row.title-last {
+    font-weight: 700;
+    color: #c9d1d9;
+}
+
+.title-divider {
+    margin-top: 28px;
+    height: 1px;
+    background: rgba(201, 209, 217, 0.1);
+}
+
+.title-footer {
+    margin-top: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.title-descriptor {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 10px;
+    letter-spacing: 0.28em;
+    color: rgba(201, 209, 217, 0.28);
+    text-transform: uppercase;
+}
+
+.title-cursor {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 16px;
+    color: rgba(201, 209, 217, 0.38);
+    animation: blink 1.2s step-end infinite;
+    line-height: 1;
+}
+
+@keyframes blink {
+    50% { opacity: 0; }
 }
 
 .nav-toggle {

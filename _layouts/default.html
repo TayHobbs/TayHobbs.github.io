@@ -8,7 +8,33 @@
 
     {% include header.html %}
     <header class="post-header" style="background-image: url({{ page.image | prepend: site.baseurl }});">
-      <h1 class="centered title">{% if page.title_bold %}{{ page.title | remove: page.title_bold }}<strong>{{ page.title_bold }}</strong>{% else %}{{ page.title }}{% endif %}</h1>
+      {% if page.title_bold %}
+        {% assign first_part = page.title | remove: page.title_bold | strip %}
+        {% assign last_part = page.title_bold %}
+        {% assign first_chars = first_part | split: "" %}
+        {% assign last_chars = last_part | split: "" %}
+        {% assign first_initial = first_part | slice: 0 | upcase %}
+        {% assign last_initial = last_part | slice: 0 | upcase %}
+        <div class="title-block">
+          <div class="title-meta">
+            <span class="title-monogram">{{ first_initial }}{{ last_initial }}</span>
+            <div class="title-meta-rule"></div>
+          </div>
+          <div class="title-row title-first" aria-label="{{ first_part }}">
+            {% for char in first_chars %}<span>{{ char }}</span>{% endfor %}
+          </div>
+          <div class="title-row title-last" aria-label="{{ last_part }}">
+            {% for char in last_chars %}<span>{{ char }}</span>{% endfor %}
+          </div>
+          <div class="title-divider"></div>
+          <div class="title-footer">
+            <span class="title-descriptor">{{ page.title_descriptor }}</span>
+            <span class="title-cursor" aria-hidden="true">_</span>
+          </div>
+        </div>
+      {% else %}
+        <h1 class="centered title">{{ page.title }}</h1>
+      {% endif %}
     </header>
     <div class="page-content">
       {{ content }}

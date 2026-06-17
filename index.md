@@ -2,6 +2,7 @@
 layout: page
 title: Taylor Hobbs
 title_bold: Hobbs
+title_descriptor: SOFTWARE ENGINEER
 ---
 
 I'm a <span data-particle-art="/ascii/terminal.txt">software engineer</span> who builds software across the stack, primarily working in <span data-particle-art="/ascii/python.txt">[Python](https://www.python.org/)</span>, <span data-particle-art="/ascii/go.txt">[Golang](https://go.dev/)</span>, <span data-particle-art="/ascii/ruby.txt">[Ruby](https://www.ruby-lang.org/en/)/[Rails](http://rubyonrails.org/)</span>, and <span data-particle-art="/ascii/js.txt">[Javascript](https://www.javascript.com/)</span>  &#40;especially <span data-particle-art="/ascii/react.txt">[React](https://facebook.github.io/react/)</span> with <span data-particle-art="/ascii/ts.txt">[TypeScript](https://www.typescriptlang.org/)</span>&#41;. I focus on writing clean code using TDD, solving problems, and shipping features that work.
