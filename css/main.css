@@ -6,7 +6,7 @@
   padding: 0;
 }
 
-html { width: 100%; overflow-x: hidden; }
+html { width: 100%; overflow-x: hidden; scroll-snap-type: y mandatory; }
 
 .container {
     min-height: 500px;
@@ -91,9 +91,10 @@ a:visited { color: #2ea043; }
   border-top: 1px solid #1a2a1a;
   padding: 3em 1.618em;
   width: 100%;
-  margin-top: 100px;
+  margin-top: 0;
   bottom: 0px;
   position: relative;
+  scroll-snap-align: start;
 }
 
 .footer .footer-links {
@@ -271,13 +272,15 @@ text-align: center;
   font-weight: 300;
   line-height: 1.15;
   letter-spacing: 0.03em;
-  padding: 15vh 3vw 22vh;
+  height: 100vh;
+  scroll-snap-align: start;
+  display: flex;
+  align-items: center;
+  padding: 0 3vw;
   width: 46vw;
   box-sizing: border-box;
   opacity: 0;
-  transform: translateY(60px);
-  transition: opacity 1.1s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 1.1s cubic-bezier(0.16, 1, 0.3, 1);
   text-align: left;
 }
 
@@ -286,7 +289,10 @@ text-align: center;
 
 .post-content > p.revealed {
   opacity: 1;
-  transform: translateY(0);
+}
+
+.post-content > p > .para-inner {
+  display: block;
 }
 
 
@@ -507,7 +513,7 @@ text-align: center;
   .post-content > p:nth-child(even) {
     width: 100%;
     margin-left: 0;
-    padding: 8vh 5vw 15vh;
+    padding: 0 5vw;
   }
 
   .site-footer .column {
@@ -748,7 +754,8 @@ text-align: center;
 
 .post-header {
   background-color: #0d0d0d;
-  min-height: 100vh;
+  height: 100vh;
+  scroll-snap-align: start;
   display: flex;
   align-items: center;
   justify-content: center;

@@ -427,6 +427,14 @@
 
   var allParas = document.querySelectorAll('.post-content > p');
 
+  // Wrap each paragraph's inline content so flex centering doesn't fragment text flow
+  allParas.forEach(function (p) {
+    var inner = document.createElement('span');
+    inner.className = 'para-inner';
+    while (p.firstChild) inner.appendChild(p.firstChild);
+    p.appendChild(inner);
+  });
+
   var targets = document.querySelectorAll('[data-particle-word], [data-particle-art]');
   for (var i = 0; i < targets.length; i++) {
     (function (el) {
