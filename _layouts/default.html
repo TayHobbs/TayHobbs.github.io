@@ -73,6 +73,11 @@
   var disperseCleanTimer = null;
   var morphSpring = 0.25;
   var disperseMode = false;
+  var scrollMorphProtectedUntil = 0;
+  var scrollMorphUnmorphTimer = null;
+  var easterEggTriggered = false;
+  var easterEggTimer = null;
+  var frameCount = 0;
 
 
   function Particle() {
@@ -352,6 +357,7 @@
 
   function unmorph() {
     if (animInterval) { clearInterval(animInterval); animInterval = null; }
+    if (easterEggTimer) { clearTimeout(easterEggTimer); easterEggTimer = null; easterEggTriggered = false; }
     cancelDisperse();
     GAME_MODE = false;
     morphing = false;
@@ -390,6 +396,24 @@
       particles[i].draw();
     }
     ctx.globalAlpha = 1;
+
+    frameCount++;
+    if (frameCount % 30 === 0 && !morphing && !easterEggTriggered) {
+      var inCorner = 0;
+      for (var ci = 0; ci < particles.length; ci++) {
+        if (particles[ci].x > W * 0.6 && particles[ci].y > H * 0.6) inCorner++;
+      }
+      if (inCorner / particles.length >= 0.8) {
+        easterEggTriggered = true;
+        fetchAndMorphAsciiArt('/ascii/congrats.txt', 'left');
+        easterEggTimer = setTimeout(function () {
+          easterEggTimer = null;
+          easterEggTriggered = false;
+          unmorph();
+        }, 4000);
+      }
+    }
+
     requestAnimationFrame(loop);
   }
 
@@ -411,6 +435,8 @@
       var idx = para ? Array.prototype.indexOf.call(allParas, para) + 1 : 1;
       var side = (idx % 2 === 1) ? 'left' : 'right';
       el.addEventListener('mouseenter', function () {
+        if (scrollMorphUnmorphTimer) { clearTimeout(scrollMorphUnmorphTimer); scrollMorphUnmorphTimer = null; }
+        scrollMorphProtectedUntil = 0;
         el.classList.remove('glow-hint');
         if (el.dataset.particleArt) {
           fetchAndMorphAsciiArt(el.dataset.particleArt, side);
@@ -420,7 +446,9 @@
           morph(el.dataset.particleWord, el.dataset.particleShape || null, side);
         }
       });
-      el.addEventListener('mouseleave', unmorph);
+      el.addEventListener('mouseleave', function () {
+        if (Date.now() >= scrollMorphProtectedUntil) unmorph();
+      });
     }(targets[i]));
   }
 
@@ -462,16 +490,22 @@
           } else {
             morph(span.dataset.particleWord, span.dataset.particleShape || null, side);
           }
+          scrollMorphProtectedUntil = Date.now() + 2000;
+          if (scrollMorphUnmorphTimer) clearTimeout(scrollMorphUnmorphTimer);
+          scrollMorphUnmorphTimer = setTimeout(function () {
+            scrollMorphUnmorphTimer = null;
+            unmorph();
+          }, 2000);
           span.classList.add('glow-hint');
         } else {
-          unmorph();
+          if (Date.now() >= scrollMorphProtectedUntil) unmorph();
         }
       });
     }, { threshold: 0.4 });
 
-    allParas.forEach(function (el, i) {
+    allParas.forEach(function (el) {
       revealObs.observe(el);
-      if (i === 0) morphObs.observe(el);
+      morphObs.observe(el);
     });
   }
 }());
