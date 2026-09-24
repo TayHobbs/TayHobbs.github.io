@@ -1,0 +1,974 @@
+---
+layout: null
+permalink: /timer/
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>Fruit Friend Timer</title>
+<style>
+  :root{
+    --sky-top:#8fd8ff;
+    --sky-bottom:#d6f4ff;
+    --ground-dark:#6fae3e;
+    --ground-light:#8fd15a;
+    --plate:#fdeed2;
+    --plate-2:#fffaf0;
+    --card:#ffffff;
+    --ink:#3a2f28;
+    --accent:#ff8a3d;
+    --accent-2:#ff5f7e;
+    --good:#3ec27c;
+    --shadow: 0 8px 20px rgba(60,40,20,0.18);
+    --radius: 22px;
+  }
+  *{box-sizing:border-box;}
+  html,body{
+    margin:0; padding:0; height:100%;
+    font-family:'Trebuchet MS','Segoe UI',Verdana,sans-serif;
+    background: linear-gradient(180deg, var(--sky-top), var(--sky-bottom) 60%, #eafaea 60%);
+    color: var(--ink);
+    -webkit-tap-highlight-color: transparent;
+  }
+  .app{
+    max-width: 560px;
+    margin: 0 auto;
+    padding: 16px 16px 28px;
+    min-height:100%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+  }
+  header{
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom: 6px;
+  }
+  header h1{
+    font-size: 1.4rem;
+    margin:0;
+    color:#8a4b16;
+    text-shadow: 1px 2px 0 rgba(255,255,255,0.6);
+  }
+  #settingsBtn{
+    width:46px; height:46px;
+    border-radius:50%;
+    border:none;
+    background: var(--card);
+    box-shadow: var(--shadow);
+    font-size:1.4rem;
+    cursor:pointer;
+    transition: transform .15s ease;
+  }
+  #settingsBtn:active{ transform: scale(0.9) rotate(20deg); }
+  #settingsBtn:disabled{ opacity:.4; cursor:not-allowed; }
+
+  .timer-display{
+    font-size: 2.6rem;
+    font-weight:800;
+    letter-spacing:2px;
+    color:#5c3a1e;
+    background: var(--card);
+    padding: 4px 26px;
+    border-radius: 999px;
+    box-shadow: var(--shadow);
+    margin: 10px 0 18px;
+    min-width: 160px;
+    text-align:center;
+  }
+
+  .scene{
+    position:relative;
+    width:100%;
+    height: 250px;
+    border-radius: var(--radius);
+    overflow:hidden;
+    box-shadow: var(--shadow);
+    background: linear-gradient(180deg, #bfe9ff 0%, #eaf9ff 55%, #eaf9ff 55%);
+  }
+  .sky-deco{ position:absolute; inset:0; overflow:hidden; }
+  .sun{
+    position:absolute; top:14px; right:24px;
+    width:46px; height:46px; border-radius:50%;
+    background: radial-gradient(circle at 35% 35%, #fff6c9, #ffd35a);
+    box-shadow: 0 0 24px rgba(255,211,90,0.8);
+  }
+  .cloud{
+    position:absolute;
+    background:#fff;
+    border-radius:50px;
+    opacity:0.9;
+    filter: drop-shadow(0 2px 0 rgba(0,0,0,0.03));
+  }
+  .cloud::before, .cloud::after{
+    content:''; position:absolute; background:#fff; border-radius:50%;
+  }
+  .c1{ width:60px; height:22px; top:20px; left:-70px; animation: drift 26s linear infinite; }
+  .c1::before{ width:28px; height:28px; top:-14px; left:8px; }
+  .c1::after{ width:22px; height:22px; top:-10px; left:30px; }
+  .c2{ width:44px; height:16px; top:60px; left:-140px; animation: drift 34s linear infinite; animation-delay:-8s;}
+  .c2::before{ width:20px; height:20px; top:-10px; left:6px; }
+  .c2::after{ width:16px; height:16px; top:-8px; left:22px; }
+  .c3{ width:50px; height:18px; top:40px; left:-220px; animation: drift 40s linear infinite; animation-delay:-20s;}
+  .c3::before{ width:22px; height:22px; top:-11px; left:6px; }
+  .c3::after{ width:18px; height:18px; top:-8px; left:26px; }
+  @keyframes drift{ to{ transform: translateX(760px); } }
+
+  .ground{
+    position:absolute; left:0; right:0; bottom:0; height:96px;
+    background: linear-gradient(180deg, var(--ground-light), var(--ground-dark));
+    border-top: 6px solid #5a9a34;
+  }
+  .ground::before{
+    content:''; position:absolute; top:-6px; left:0; right:0; height:10px;
+    background: repeating-linear-gradient(90deg, #7fc24a 0 14px, #74b943 14px 28px);
+    opacity:.6;
+  }
+
+  .viewport{
+    position:absolute; left:0; right:0; bottom:16px; height:86px;
+    overflow:hidden;
+  }
+  .track{
+    position:absolute; left: 78px; top:0; bottom:0;
+    display:flex; align-items:flex-end;
+    transition: transform .6s cubic-bezier(.5,1.6,.4,1);
+    will-change: transform;
+  }
+  .fruit-slot{
+    position:relative;
+    width:78px; height:78px;
+    margin-right: 10px;
+    border-radius:50%;
+    background: radial-gradient(circle at 50% 38%, var(--plate-2), var(--plate));
+    box-shadow: inset 0 -4px 6px rgba(150,100,40,0.15), 0 3px 6px rgba(0,0,0,0.12);
+    flex: 0 0 auto;
+    animation: bob 2.6s ease-in-out infinite;
+  }
+  .fruit-slot:nth-child(odd){ animation-delay: -1.1s; }
+  @keyframes bob{
+    0%,100%{ transform: translateY(0); }
+    50%{ transform: translateY(-5px); }
+  }
+  .fruit-slot svg{
+    position:absolute; inset:8px;
+    width: calc(100% - 16px); height: calc(100% - 16px);
+    filter: drop-shadow(0 2px 2px rgba(0,0,0,0.15));
+  }
+  .fruit-slot svg.nibble{ animation: nibblePunch .34s ease; }
+  @keyframes nibblePunch{
+    0%{ transform: scale(1,1) rotate(0deg) translateX(0); }
+    30%{ transform: scale(0.8,1.2) rotate(-8deg) translateX(-4px); }
+    60%{ transform: scale(1.1,0.9) rotate(4deg) translateX(1px); }
+    100%{ transform: scale(1,1) rotate(0deg) translateX(0); }
+  }
+  .bite-circle{
+    transition: r .4s cubic-bezier(.34,1.56,.64,1), cx .4s cubic-bezier(.34,1.56,.64,1);
+  }
+  .fruit-slot.gone svg{ opacity:0; transition: opacity .3s ease; }
+
+  .crumb{
+    position:absolute; width:7px; height:7px; border-radius:2px;
+    left:30%; top:46%;
+    animation: crumbFly .55s ease-out forwards;
+    pointer-events:none; z-index:6;
+  }
+  @keyframes crumbFly{
+    0%{ transform: translate(-50%,-50%) translate(0,0) scale(1) rotate(0deg); opacity:1; }
+    100%{ transform: translate(-50%,-50%) translate(var(--tx),var(--ty)) scale(0.3) rotate(var(--rot)); opacity:0; }
+  }
+
+  .fruit-slot::after, .cake-slot::after{
+    content:''; position:absolute; inset:-6px; border-radius:50%;
+    opacity:0; pointer-events:none;
+  }
+  .cake-slot::after{ border-radius:20px; }
+  .fruit-slot.active::after, .cake-slot.active::after{
+    opacity:1; animation: activePulse 1s ease-in-out infinite;
+  }
+  @keyframes activePulse{
+    0%,100%{ box-shadow: 0 0 0 0 rgba(255,138,61,0.45); }
+    50%{ box-shadow: 0 0 0 9px rgba(255,138,61,0); }
+  }
+
+  .cake-slot{
+    position:relative;
+    width:92px; height:92px;
+    border-radius:16px;
+    flex:0 0 auto;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .cake-slot svg{ width:100%; height:100%; filter: drop-shadow(0 3px 3px rgba(0,0,0,0.18)); }
+
+  .animal-wrap{
+    position:absolute; left:6px; bottom:8px; width:96px; height:96px;
+    z-index:5;
+    transform-origin: 50% 100%;
+  }
+  .animal-wrap svg{ width:100%; height:100%; overflow:visible; }
+  .animal-wrap.idle-bob{ animation: animalBob 1.8s ease-in-out infinite; }
+  @keyframes animalBob{
+    0%,100%{ transform: translateY(0) rotate(0deg); }
+    50%{ transform: translateY(-4px) rotate(-1.5deg); }
+  }
+  .animal-wrap.step{ animation: hop .5s cubic-bezier(.4,1.8,.5,1); }
+  @keyframes hop{
+    0%{ transform: translateY(0) scale(1,1); }
+    30%{ transform: translateY(-22px) scale(0.94,1.08); }
+    55%{ transform: translateY(-22px) scale(1.06,0.92); }
+    100%{ transform: translateY(0) scale(1,1); }
+  }
+  .jaw{ transform-origin: 64px 97px; transition: transform .1s ease; }
+  .animal-wrap.chomp .jaw{ transform: scale(0.9, 1.7); }
+  .animal-wrap.chomp{ animation: chompShake .34s ease; }
+  @keyframes chompShake{
+    0%{ transform: translateY(0) translateX(0) scale(1,1); }
+    35%{ transform: translateY(3px) translateX(4px) scale(1.06,0.92); }
+    70%{ transform: translateY(0) translateX(-1px) scale(0.98,1.02); }
+    100%{ transform: translateY(0) translateX(0) scale(1,1); }
+  }
+
+  .controls{
+    display:flex; gap:12px; margin-top:20px; width:100%;
+    justify-content:center;
+  }
+  .btn{
+    border:none; border-radius:999px; padding:14px 26px;
+    font-size:1.05rem; font-weight:700; cursor:pointer;
+    box-shadow: var(--shadow);
+    background:#fff; color:var(--ink);
+    transition: transform .12s ease, opacity .2s ease;
+    min-width:110px;
+  }
+  .btn:active{ transform: scale(0.94); }
+  .btn.primary{ background: linear-gradient(180deg, #ffb15c, var(--accent)); color:#fff; }
+  .btn.danger{ background: linear-gradient(180deg,#ff8a9c, var(--accent-2)); color:#fff; }
+  .btn:disabled{ opacity:.45; cursor:not-allowed; transform:none; }
+
+  .modal-overlay, .celebration-overlay{
+    position:fixed; inset:0; background: rgba(30,20,10,0.45);
+    display:flex; align-items:center; justify-content:center;
+    padding:20px; z-index:50;
+    opacity:0; pointer-events:none;
+    transition: opacity .25s ease;
+  }
+  .modal-overlay.open, .celebration-overlay.open{ opacity:1; pointer-events:auto; }
+  .modal, .celebration-card{
+    background:#fffefb; border-radius:26px; padding:22px 22px 26px;
+    max-width: 420px; width:100%;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    max-height:88vh; overflow-y:auto;
+    transform: translateY(14px) scale(0.97);
+    transition: transform .25s ease;
+  }
+  .modal-overlay.open .modal, .celebration-overlay.open .celebration-card{ transform: translateY(0) scale(1); }
+  .modal h2{ margin:0 0 4px; color:#8a4b16; }
+  .modal h3{ margin: 16px 0 8px; font-size:1rem; color:#5c3a1e; }
+
+  .animal-picker{
+    display:grid; grid-template-columns: repeat(3, 1fr); gap:10px;
+  }
+  .animal-option{
+    border: 3px solid transparent; border-radius:16px; background:#fbf3e6;
+    padding:8px 4px 4px; cursor:pointer; text-align:center; transition: all .15s ease;
+  }
+  .animal-option svg{ width:52px; height:52px; }
+  .animal-option span{ display:block; font-size:.75rem; margin-top:2px; font-weight:700; }
+  .animal-option.selected{ border-color: var(--accent); background:#fff1de; transform: scale(1.04); }
+
+  .duration-presets{ display:flex; flex-wrap:wrap; gap:8px; }
+  .preset-btn{
+    border:2px solid #f0d9b5; background:#fff; border-radius:14px;
+    padding:8px 14px; font-weight:700; cursor:pointer; color:#8a4b16;
+  }
+  .preset-btn.selected{ background: var(--accent); border-color:var(--accent); color:#fff; }
+  .custom-duration{ display:flex; align-items:center; gap:8px; margin-top:10px; font-weight:600; font-size:.92rem; }
+  .custom-duration input{
+    width:80px; padding:8px; border-radius:10px; border:2px solid #f0d9b5; font-size:1rem;
+  }
+  .sound-toggle{ display:flex; align-items:center; gap:8px; font-weight:600; }
+  .sound-toggle input{ width:20px; height:20px; }
+
+  .modal .btn{ width:100%; margin-top:20px; }
+
+  .celebration-card{ text-align:center; position:relative; overflow:hidden; }
+  .cake-big{ font-size:4rem; animation: pop 0.6s ease; }
+  @keyframes pop{ 0%{ transform: scale(0); } 60%{ transform: scale(1.2); } 100%{ transform: scale(1); } }
+  .celebration-card h2{ color:#8a4b16; margin:8px 0 4px; }
+  .celebration-card p{ color:#5c3a1e; margin:0 0 8px; }
+  .confetti{
+    position:absolute; top:-10px; width:8px; height:14px; opacity:0.9;
+    animation: fall linear forwards;
+  }
+  @keyframes fall{
+    to{ transform: translateY(420px) rotate(360deg); opacity:0.2; }
+  }
+
+  @media (max-width:420px){
+    header h1{ font-size:1.15rem; }
+    .timer-display{ font-size:2.1rem; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <h1>🐾 Fruit Friend Timer</h1>
+    <button id="settingsBtn" aria-label="Settings">⚙️</button>
+  </header>
+
+  <div class="timer-display" id="timeDisplay" aria-live="polite">05:00</div>
+
+  <div class="scene">
+    <div class="sky-deco">
+      <div class="sun"></div>
+      <div class="cloud c1"></div>
+      <div class="cloud c2"></div>
+      <div class="cloud c3"></div>
+    </div>
+    <div class="ground"></div>
+    <div class="viewport">
+      <div class="track" id="track"></div>
+    </div>
+    <div class="animal-wrap idle-bob" id="animalWrap"></div>
+  </div>
+
+  <div class="controls">
+    <button id="startBtn" class="btn primary">Start</button>
+    <button id="pauseBtn" class="btn" disabled>Pause</button>
+    <button id="resetBtn" class="btn">Reset</button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="settingsOverlay">
+  <div class="modal">
+    <h2>Settings</h2>
+    <h3>Choose your friend</h3>
+    <div class="animal-picker" id="animalPicker"></div>
+    <h3>Timer length</h3>
+    <div class="duration-presets" id="durationPresets"></div>
+    <label class="custom-duration">Custom (minutes)
+      <input type="number" id="customMinutes" min="0.2" max="60" step="0.5">
+    </label>
+    <h3>Sound</h3>
+    <label class="sound-toggle"><input type="checkbox" id="soundToggle"> Sound effects</label>
+    <button id="closeSettings" class="btn primary">Save &amp; Close</button>
+  </div>
+</div>
+
+<div class="celebration-overlay" id="celebrationOverlay">
+  <div class="celebration-card" id="celebrationCard">
+    <div class="cake-big">🎉🎂🎉</div>
+    <h2>Time's Up!</h2>
+    <p>Yummy! Every last bite is gone.</p>
+    <button id="celebrationClose" class="btn primary">Yay!</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var MAX_FRUITS = 60;
+  var SLOT_W = 88; // slot width + margin
+  var BITE_INTERVAL = 1.5; // seconds between bites
+  var BITES_PER_FRUIT = 4;
+  var FRUIT_TARGET_DURATION = BITE_INTERVAL * BITES_PER_FRUIT; // seconds per fruit
+
+  var ANIMALS = [
+    {id:'bear',  name:'Bear',  body:'#a9713f', belly:'#f0d3a3', ear:'round',  earColor:'#8a5a30'},
+    {id:'bunny', name:'Bunny', body:'#f7cdd6', belly:'#ffffff', ear:'tall',   earColor:'#f9dbe3'},
+    {id:'cat',   name:'Cat',   body:'#f3a94e', belly:'#fff3df', ear:'pointy', earColor:'#e3893a', extra:'whiskers'},
+    {id:'dog',   name:'Dog',   body:'#d9a066', belly:'#f6e6cf', ear:'floppy', earColor:'#b97b45'},
+    {id:'panda', name:'Panda', body:'#ffffff', belly:'#ffffff', ear:'round',  earColor:'#2b2b2b', extra:'panda'}
+  ];
+
+  var FRUITS = [
+    {id:'apple', color:'#e6483c', shade:'#c73528', detail:'stem'},
+    {id:'orange',color:'#f5941f', shade:'#d97b0e', detail:'segments'},
+    {id:'strawberry', color:'#f0405a', shade:'#d12b45', detail:'seeds'},
+    {id:'grape', color:'#8a4fbf', shade:'#6d3a9c', detail:'cluster'},
+    {id:'peach', color:'#f7b384', shade:'#ef8f5a', detail:'stem'},
+    {id:'plum',  color:'#7c4a86', shade:'#5f3868', detail:'stem'}
+  ];
+
+  var state = {
+    animal: 'bear',
+    minutes: 5,
+    soundOn: true,
+    status: 'idle',
+    fruitSeq: [],
+    fruitDuration: 10,
+    totalDuration: 300,
+    startPerf: 0,
+    pausedAccum: 0,
+    currentIndex: -1,
+    currentStage: -1,
+    rafId: null
+  };
+
+  // ---------- persistence ----------
+  function loadSettings(){
+    try{
+      var raw = localStorage.getItem('fruitTimerSettings');
+      if(raw){
+        var s = JSON.parse(raw);
+        if(s.animal) state.animal = s.animal;
+        if(s.minutes) state.minutes = s.minutes;
+        if(typeof s.soundOn === 'boolean') state.soundOn = s.soundOn;
+      }
+    }catch(e){}
+  }
+  function saveSettings(){
+    try{
+      localStorage.setItem('fruitTimerSettings', JSON.stringify({
+        animal: state.animal, minutes: state.minutes, soundOn: state.soundOn
+      }));
+    }catch(e){}
+  }
+
+  // ---------- audio ----------
+  var audioCtx = null;
+  function ensureAudio(){
+    if(!audioCtx){
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if(AC) audioCtx = new AC();
+    }
+    if(audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+  }
+  function beep(opts){
+    if(!state.soundOn || !audioCtx) return;
+    var t0 = audioCtx.currentTime + (opts.delay||0);
+    var osc = audioCtx.createOscillator();
+    var g = audioCtx.createGain();
+    osc.type = opts.type || 'sine';
+    osc.frequency.setValueAtTime(opts.freq, t0);
+    if(opts.glideTo) osc.frequency.exponentialRampToValueAtTime(opts.glideTo, t0 + opts.duration);
+    g.gain.setValueAtTime(opts.gain || 0.2, t0);
+    g.gain.exponentialRampToValueAtTime(0.001, t0 + opts.duration);
+    osc.connect(g).connect(audioCtx.destination);
+    osc.start(t0); osc.stop(t0 + opts.duration + 0.03);
+  }
+  function chompSound(){ beep({freq:320, glideTo:130, duration:0.12, type:'triangle', gain:0.28}); }
+  function stepSound(){ beep({freq:480, glideTo:680, duration:0.1, type:'sine', gain:0.16}); }
+  function celebrationSound(){
+    [523,659,784,1046].forEach(function(f,i){
+      beep({freq:f, duration:0.2, type:'square', gain:0.18, delay:i*0.13});
+    });
+  }
+
+  // ---------- bite geometry ----------
+  var BITE_STAGES = [
+    {cx:14, r:0},
+    {cx:18, r:22},
+    {cx:24, r:34},
+    {cx:34, r:48},
+    {cx:46, r:64}
+  ];
+  var CAKE_BITE_STAGES = [
+    {cx:20, r:0},
+    {cx:26, r:34},
+    {cx:40, r:80}
+  ];
+
+  // ---------- SVG builders ----------
+  function fruitSVG(fruit, maskId){
+    var extra = '';
+    if(fruit.detail === 'stem'){
+      extra = '<path d="M50 8 Q46 -2 38 2" stroke="#3f7d3f" stroke-width="5" fill="none" stroke-linecap="round"/>' +
+              '<ellipse cx="60" cy="6" rx="10" ry="6" fill="#4fae4f" transform="rotate(25 60 6)"/>';
+    } else if(fruit.detail === 'segments'){
+      extra = '<path d="M50 15 L50 85 M20 50 L80 50" stroke="' + fruit.shade + '" stroke-width="2.5" opacity="0.5"/>' +
+              '<path d="M50 8 Q44 -2 36 1" stroke="#3f7d3f" stroke-width="5" fill="none" stroke-linecap="round"/>';
+    } else if(fruit.detail === 'seeds'){
+      extra = '<g fill="#ffe27a">' +
+              '<circle cx="38" cy="38" r="2.4"/><circle cx="58" cy="34" r="2.4"/>' +
+              '<circle cx="48" cy="52" r="2.4"/><circle cx="30" cy="56" r="2.4"/>' +
+              '<circle cx="64" cy="54" r="2.4"/><circle cx="50" cy="70" r="2.4"/></g>' +
+              '<path d="M50 12 L40 2 L50 6 L60 2 Z" fill="#4fae4f"/>';
+    } else if(fruit.detail === 'cluster'){
+      extra = '<circle cx="30" cy="60" r="16" fill="' + fruit.color + '"/>' +
+              '<circle cx="66" cy="60" r="16" fill="' + fruit.color + '"/>' +
+              '<path d="M50 10 Q40 2 30 8" stroke="#4fae4f" stroke-width="4" fill="none" stroke-linecap="round"/>';
+    }
+    return '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">' +
+      '<defs><mask id="' + maskId + '" maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="100">' +
+        '<rect x="0" y="0" width="100" height="100" fill="#fff"/>' +
+        '<circle class="bite-circle" cx="14" cy="54" r="0" fill="#000"/>' +
+      '</mask></defs>' +
+      '<g mask="url(#' + maskId + ')">' +
+        '<circle cx="50" cy="54" r="38" fill="' + fruit.color + '"/>' +
+        '<ellipse cx="38" cy="40" rx="9" ry="6" fill="#ffffff" opacity="0.35"/>' +
+        extra +
+      '</g>' +
+      '</svg>';
+  }
+
+  function cakeSVG(maskId){
+    return '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">' +
+      '<defs><mask id="' + maskId + '" maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="100">' +
+        '<rect x="0" y="0" width="100" height="100" fill="#fff"/>' +
+        '<circle class="bite-circle" cx="20" cy="55" r="0" fill="#000"/>' +
+      '</mask></defs>' +
+      '<g mask="url(#' + maskId + ')">' +
+        '<rect x="18" y="55" width="64" height="30" rx="6" fill="#f7b3c2"/>' +
+        '<rect x="24" y="38" width="52" height="24" rx="6" fill="#fff6e3"/>' +
+        '<path d="M18 60 Q28 52 38 60 T58 60 T82 60 L82 55 Q72 48 62 55 T42 55 T18 55 Z" fill="#ffffff"/>' +
+        '<circle cx="50" cy="30" r="4" fill="#ff5f7e"/>' +
+        '<rect x="48" y="14" width="4" height="16" fill="#ffd35a"/>' +
+        '<path d="M50 8 Q54 12 50 16 Q46 12 50 8 Z" fill="#ff8a3d"/>' +
+        '<circle cx="30" cy="70" r="4" fill="#e6483c"/>' +
+        '<circle cx="70" cy="70" r="4" fill="#e6483c"/>' +
+        '<circle cx="50" cy="72" r="4" fill="#8a4fbf"/>' +
+      '</g>' +
+      '</svg>';
+  }
+
+  function earsSVG(a){
+    switch(a.ear){
+      case 'round':
+        return '<circle cx="34" cy="46" r="17" fill="'+a.earColor+'"/><circle cx="94" cy="46" r="17" fill="'+a.earColor+'"/>' +
+               '<circle cx="34" cy="46" r="9" fill="'+a.belly+'"/><circle cx="94" cy="46" r="9" fill="'+a.belly+'"/>';
+      case 'tall':
+        return '<ellipse cx="40" cy="14" rx="11" ry="30" fill="'+a.earColor+'" transform="rotate(-8 40 14)"/>' +
+               '<ellipse cx="88" cy="14" rx="11" ry="30" fill="'+a.earColor+'" transform="rotate(8 88 14)"/>' +
+               '<ellipse cx="40" cy="16" rx="5" ry="20" fill="#ffe6ec" transform="rotate(-8 40 16)"/>' +
+               '<ellipse cx="88" cy="16" rx="5" ry="20" fill="#ffe6ec" transform="rotate(8 88 16)"/>';
+      case 'pointy':
+        return '<path d="M22 48 L34 6 L50 42 Z" fill="'+a.earColor+'"/>' +
+               '<path d="M106 48 L94 6 L78 42 Z" fill="'+a.earColor+'"/>' +
+               '<path d="M28 42 L34 18 L42 40 Z" fill="#ffe6c9"/>' +
+               '<path d="M100 42 L94 18 L86 40 Z" fill="#ffe6c9"/>';
+      case 'floppy':
+        return '<ellipse cx="26" cy="56" rx="14" ry="26" fill="'+a.earColor+'" transform="rotate(-18 26 56)"/>' +
+               '<ellipse cx="102" cy="56" rx="14" ry="26" fill="'+a.earColor+'" transform="rotate(18 102 56)"/>';
+      default: return '';
+    }
+  }
+
+  function animalSVG(id){
+    var a = ANIMALS.filter(function(x){return x.id===id;})[0] || ANIMALS[0];
+    var markings = '';
+    if(a.extra === 'panda'){
+      markings = '<ellipse cx="48" cy="72" rx="11" ry="14" fill="#2b2b2b" transform="rotate(-18 48 72)"/>' +
+                 '<ellipse cx="80" cy="72" rx="11" ry="14" fill="#2b2b2b" transform="rotate(18 80 72)"/>';
+    }
+    var whiskers = '';
+    if(a.extra === 'whiskers'){
+      whiskers = '<g stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" opacity="0.9">' +
+        '<path d="M20 96 L46 92"/><path d="M20 104 L46 100"/>' +
+        '<path d="M108 96 L82 92"/><path d="M108 104 L82 100"/></g>';
+    }
+    return '<svg viewBox="0 0 128 150" xmlns="http://www.w3.org/2000/svg">' +
+      '<ellipse cx="64" cy="128" rx="30" ry="9" fill="rgba(30,20,10,0.15)"/>' +
+      '<ellipse cx="42" cy="122" rx="10" ry="8" fill="'+a.body+'"/>' +
+      '<ellipse cx="86" cy="122" rx="10" ry="8" fill="'+a.body+'"/>' +
+      earsSVG(a) +
+      '<circle cx="64" cy="84" r="46" fill="'+a.body+'"/>' +
+      markings +
+      '<ellipse cx="64" cy="98" rx="26" ry="20" fill="'+a.belly+'"/>' +
+      whiskers +
+      '<circle cx="48" cy="72" r="7" fill="#2b2b2b"/>' +
+      '<circle cx="80" cy="72" r="7" fill="#2b2b2b"/>' +
+      '<circle cx="50.5" cy="69.5" r="2.2" fill="#fff"/>' +
+      '<circle cx="82.5" cy="69.5" r="2.2" fill="#fff"/>' +
+      '<circle cx="52" cy="92" r="5" fill="#ff9fae" opacity="0.7"/>' +
+      '<circle cx="76" cy="92" r="5" fill="#ff9fae" opacity="0.7"/>' +
+      '<g class="jaw">' +
+        '<path d="M46 98 Q64 118 82 98 Q64 108 46 98 Z" fill="#7a4a2b"/>' +
+      '</g>' +
+      '<path d="M46 96 Q64 106 82 96" stroke="#5c3a1e" stroke-width="3" fill="none" stroke-linecap="round"/>' +
+      '<circle cx="64" cy="80" r="6" fill="#5c3a1e"/>' +
+      '</svg>';
+  }
+
+  // ---------- DOM refs ----------
+  var el = {
+    timeDisplay: document.getElementById('timeDisplay'),
+    track: document.getElementById('track'),
+    animalWrap: document.getElementById('animalWrap'),
+    startBtn: document.getElementById('startBtn'),
+    pauseBtn: document.getElementById('pauseBtn'),
+    resetBtn: document.getElementById('resetBtn'),
+    settingsBtn: document.getElementById('settingsBtn'),
+    settingsOverlay: document.getElementById('settingsOverlay'),
+    closeSettings: document.getElementById('closeSettings'),
+    animalPicker: document.getElementById('animalPicker'),
+    durationPresets: document.getElementById('durationPresets'),
+    customMinutes: document.getElementById('customMinutes'),
+    soundToggle: document.getElementById('soundToggle'),
+    celebrationOverlay: document.getElementById('celebrationOverlay'),
+    celebrationClose: document.getElementById('celebrationClose')
+  };
+
+  var PRESETS = [1, 3, 5, 10];
+
+  function formatTime(sec){
+    sec = Math.max(0, Math.ceil(sec));
+    var m = Math.floor(sec/60);
+    var s = sec % 60;
+    return (m<10?'0':'')+m + ':' + (s<10?'0':'')+s;
+  }
+
+  function renderAnimal(){
+    el.animalWrap.innerHTML = animalSVG(state.animal);
+  }
+
+  function buildSession(){
+    state.totalDuration = Math.round(state.minutes * 60);
+    var rawCount = Math.max(1, Math.round(state.totalDuration / FRUIT_TARGET_DURATION));
+    var numFruits = Math.min(rawCount, MAX_FRUITS);
+    state.fruitDuration = state.totalDuration / numFruits;
+    state.fruitSeq = [];
+    for(var i=0;i<numFruits;i++){
+      state.fruitSeq.push(FRUITS[Math.floor(Math.random()*FRUITS.length)]);
+    }
+    buildTrackDOM();
+  }
+
+  function buildTrackDOM(){
+    var html = '';
+    state.fruitSeq.forEach(function(fruit, i){
+      html += '<div class="fruit-slot" data-type="' + fruit.id + '" data-color="' + fruit.shade + '">' +
+                fruitSVG(fruit, 'bitemask-f' + i) +
+              '</div>';
+    });
+    html += '<div class="cake-slot" id="cakeSlot" data-color="#ffb3c6">' + cakeSVG('bitemask-cake') + '</div>';
+    el.track.innerHTML = html;
+    el.track.style.transform = 'translateX(0px)';
+    el.track.style.transition = 'none';
+    requestAnimationFrame(function(){
+      el.track.style.transition = '';
+    });
+  }
+
+  function resetVisualState(){
+    el.track.querySelectorAll('.fruit-slot, .cake-slot').forEach(function(s){
+      s.classList.remove('gone', 'active');
+    });
+    el.track.style.transform = 'translateX(0px)';
+    el.animalWrap.classList.remove('chomp','step');
+  }
+
+  function setBite(slot, cx, r){
+    if(!slot) return;
+    var circle = slot.querySelector('.bite-circle');
+    if(!circle) return;
+    circle.style.cx = cx + 'px';
+    circle.style.r = r + 'px';
+  }
+
+  function nibbleFruit(slot){
+    if(!slot) return;
+    var svg = slot.querySelector('svg');
+    if(!svg) return;
+    svg.classList.remove('nibble');
+    void svg.offsetWidth;
+    svg.classList.add('nibble');
+  }
+
+  function spawnCrumbs(slot){
+    if(!slot) return;
+    var color = slot.getAttribute('data-color') || '#e8c99b';
+    for(var i=0;i<5;i++){
+      var c = document.createElement('div');
+      c.className = 'crumb';
+      var ang = (Math.random()*90 - 135) * Math.PI/180;
+      var dist = 16 + Math.random()*22;
+      c.style.setProperty('--tx', (Math.cos(ang)*dist).toFixed(1)+'px');
+      c.style.setProperty('--ty', (Math.sin(ang)*dist).toFixed(1)+'px');
+      c.style.setProperty('--rot', (Math.random()*240-120).toFixed(0)+'deg');
+      c.style.background = color;
+      c.style.borderRadius = (Math.random()>0.5) ? '50%' : '2px';
+      slot.appendChild(c);
+      (function(node){ setTimeout(function(){ node.remove(); }, 600); })(c);
+    }
+  }
+
+  // ---------- timer engine ----------
+  function elapsed(){
+    if(state.status === 'running'){
+      return state.pausedAccum + (performance.now() - state.startPerf)/1000;
+    }
+    return state.pausedAccum;
+  }
+
+  function updateButtons(){
+    el.startBtn.disabled = (state.status === 'running');
+    el.pauseBtn.disabled = (state.status !== 'running');
+    el.startBtn.textContent = (state.status === 'paused') ? 'Resume' : (state.status === 'finished' ? 'Play Again' : 'Start');
+    el.settingsBtn.disabled = (state.status === 'running' || state.status === 'paused');
+  }
+
+  function startTimer(){
+    if(state.status === 'idle' || state.status === 'finished'){
+      buildSession();
+      resetVisualState();
+      state.pausedAccum = 0;
+      state.currentIndex = -1;
+      state.currentStage = -1;
+      el.celebrationOverlay.classList.remove('open');
+    }
+    ensureAudio();
+    state.startPerf = performance.now();
+    state.status = 'running';
+    el.animalWrap.classList.remove('idle-bob');
+    updateButtons();
+    state.rafId = requestAnimationFrame(tick);
+  }
+
+  function pauseTimer(){
+    if(state.status !== 'running') return;
+    state.pausedAccum = elapsed();
+    state.status = 'paused';
+    el.animalWrap.classList.add('idle-bob');
+    if(state.rafId) cancelAnimationFrame(state.rafId);
+    updateButtons();
+  }
+
+  function resetTimer(){
+    if(state.rafId) cancelAnimationFrame(state.rafId);
+    state.status = 'idle';
+    state.pausedAccum = 0;
+    state.currentIndex = -1;
+    state.currentStage = -1;
+    el.celebrationOverlay.classList.remove('open');
+    el.animalWrap.classList.add('idle-bob');
+    buildSession();
+    resetVisualState();
+    el.timeDisplay.textContent = formatTime(state.totalDuration);
+    updateButtons();
+  }
+
+  function applyBiteStage(idx, stage){
+    var slot = el.track.children[idx];
+    if(!slot) return;
+    var s = BITE_STAGES[stage] || BITE_STAGES[BITE_STAGES.length - 1];
+    setBite(slot, s.cx, s.r);
+    if(stage > 0){
+      triggerChomp();
+      nibbleFruit(slot);
+      spawnCrumbs(slot);
+    }
+  }
+
+  function advanceToFruit(newIdx){
+    var prevIdx = state.currentIndex;
+    if(prevIdx >= 0){
+      var prevSlot = el.track.children[prevIdx];
+      if(prevSlot){
+        var last = BITE_STAGES[BITE_STAGES.length - 1];
+        setBite(prevSlot, last.cx, last.r);
+        prevSlot.classList.remove('active');
+        setTimeout(function(){ prevSlot.classList.add('gone'); }, 320);
+      }
+    }
+    state.currentIndex = newIdx;
+    state.currentStage = 0;
+    var newSlot = el.track.children[newIdx];
+    if(newSlot) newSlot.classList.add('active');
+    if(prevIdx >= 0){
+      el.track.style.transform = 'translateX(' + (-newIdx * SLOT_W) + 'px)';
+      triggerStep();
+    }
+  }
+
+  function triggerChomp(){
+    chompSound();
+    el.animalWrap.classList.remove('chomp');
+    void el.animalWrap.offsetWidth;
+    el.animalWrap.classList.add('chomp');
+    setTimeout(function(){ el.animalWrap.classList.remove('chomp'); }, 300);
+  }
+
+  function triggerStep(){
+    stepSound();
+    el.animalWrap.classList.remove('step');
+    void el.animalWrap.offsetWidth;
+    el.animalWrap.classList.add('step');
+    setTimeout(function(){ el.animalWrap.classList.remove('step'); }, 500);
+  }
+
+  function finalizeCompletion(){
+    state.status = 'finished';
+    var lastIdx = state.fruitSeq.length - 1;
+    var lastSlot = el.track.children[lastIdx];
+    if(lastSlot){
+      var last = BITE_STAGES[BITE_STAGES.length - 1];
+      setBite(lastSlot, last.cx, last.r);
+      lastSlot.classList.remove('active');
+      setTimeout(function(){ lastSlot.classList.add('gone'); }, 250);
+    }
+    el.timeDisplay.textContent = formatTime(0);
+    updateButtons();
+
+    var cakeSlot = document.getElementById('cakeSlot');
+    setTimeout(function(){
+      el.track.style.transform = 'translateX(' + (-(state.fruitSeq.length) * SLOT_W) + 'px)';
+      triggerStep();
+      if(cakeSlot) cakeSlot.classList.add('active');
+    }, 350);
+
+    setTimeout(function(){
+      var s = CAKE_BITE_STAGES[1];
+      setBite(cakeSlot, s.cx, s.r);
+      triggerChomp();
+      nibbleFruit(cakeSlot);
+      spawnCrumbs(cakeSlot);
+    }, 950);
+    setTimeout(function(){
+      var s = CAKE_BITE_STAGES[2];
+      setBite(cakeSlot, s.cx, s.r);
+      triggerChomp();
+      nibbleFruit(cakeSlot);
+      spawnCrumbs(cakeSlot);
+      if(cakeSlot) cakeSlot.classList.remove('active');
+    }, 1450);
+
+    setTimeout(function(){
+      el.animalWrap.classList.add('idle-bob');
+      launchConfetti();
+      celebrationSound();
+      el.celebrationOverlay.classList.add('open');
+    }, 1900);
+  }
+
+  function tick(){
+    if(state.status !== 'running') return;
+    var e = elapsed();
+    var remaining = state.totalDuration - e;
+
+    if(remaining <= 0){
+      el.timeDisplay.textContent = formatTime(0);
+      finalizeCompletion();
+      return;
+    }
+    el.timeDisplay.textContent = formatTime(remaining);
+
+    var idx = Math.min(state.fruitSeq.length - 1, Math.floor(e / state.fruitDuration));
+    var withinFruit = e - idx * state.fruitDuration;
+    var stage = Math.min(3, Math.floor(withinFruit / (state.fruitDuration / 4)));
+
+    if(idx !== state.currentIndex){
+      advanceToFruit(idx);
+    }
+    if(stage !== state.currentStage){
+      state.currentStage = stage;
+      applyBiteStage(idx, stage);
+    }
+
+    state.rafId = requestAnimationFrame(tick);
+  }
+
+  // ---------- confetti ----------
+  var CONFETTI_COLORS = ['#ff8a3d','#ff5f7e','#ffd35a','#3ec27c','#5aa9ff','#c774f0'];
+  function launchConfetti(){
+    var card = document.getElementById('celebrationCard');
+    var old = card.querySelectorAll('.confetti');
+    old.forEach(function(n){ n.remove(); });
+    for(var i=0;i<36;i++){
+      var c = document.createElement('div');
+      c.className = 'confetti';
+      c.style.left = (Math.random()*100) + '%';
+      c.style.background = CONFETTI_COLORS[i % CONFETTI_COLORS.length];
+      c.style.animationDuration = (1.4 + Math.random()*1.2) + 's';
+      c.style.animationDelay = (Math.random()*0.5) + 's';
+      c.style.borderRadius = (Math.random()>0.5) ? '50%' : '2px';
+      card.appendChild(c);
+    }
+  }
+
+  // ---------- settings UI ----------
+  function buildSettingsUI(){
+    el.animalPicker.innerHTML = ANIMALS.map(function(a){
+      return '<div class="animal-option" data-animal="'+a.id+'">' + animalSVG(a.id) + '<span>'+a.name+'</span></div>';
+    }).join('');
+    el.durationPresets.innerHTML = PRESETS.map(function(m){
+      return '<button type="button" class="preset-btn" data-min="'+m+'">'+m+' min</button>';
+    }).join('');
+    syncSettingsUI();
+
+    el.animalPicker.querySelectorAll('.animal-option').forEach(function(opt){
+      opt.addEventListener('click', function(){
+        state.animal = opt.getAttribute('data-animal');
+        highlightAnimal();
+      });
+    });
+    el.durationPresets.querySelectorAll('.preset-btn').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        state.minutes = parseFloat(btn.getAttribute('data-min'));
+        el.customMinutes.value = state.minutes;
+        highlightPreset();
+      });
+    });
+    el.customMinutes.addEventListener('input', function(){
+      var v = parseFloat(el.customMinutes.value);
+      if(!isNaN(v) && v > 0){
+        state.minutes = v;
+        highlightPreset();
+      }
+    });
+    el.soundToggle.addEventListener('change', function(){
+      state.soundOn = el.soundToggle.checked;
+    });
+  }
+
+  function highlightAnimal(){
+    el.animalPicker.querySelectorAll('.animal-option').forEach(function(opt){
+      opt.classList.toggle('selected', opt.getAttribute('data-animal') === state.animal);
+    });
+  }
+  function highlightPreset(){
+    el.durationPresets.querySelectorAll('.preset-btn').forEach(function(btn){
+      btn.classList.toggle('selected', parseFloat(btn.getAttribute('data-min')) === state.minutes);
+    });
+  }
+  function syncSettingsUI(){
+    highlightAnimal();
+    highlightPreset();
+    el.customMinutes.value = state.minutes;
+    el.soundToggle.checked = state.soundOn;
+  }
+
+  function openSettings(){
+    syncSettingsUI();
+    el.settingsOverlay.classList.add('open');
+  }
+  function closeSettingsFn(){
+    el.settingsOverlay.classList.remove('open');
+    saveSettings();
+    renderAnimal();
+    if(state.status === 'idle' || state.status === 'finished'){
+      resetTimer();
+    }
+  }
+
+  // ---------- wire up ----------
+  el.startBtn.addEventListener('click', startTimer);
+  el.pauseBtn.addEventListener('click', pauseTimer);
+  el.resetBtn.addEventListener('click', resetTimer);
+  el.settingsBtn.addEventListener('click', openSettings);
+  el.closeSettings.addEventListener('click', closeSettingsFn);
+  el.settingsOverlay.addEventListener('click', function(ev){
+    if(ev.target === el.settingsOverlay) closeSettingsFn();
+  });
+  el.celebrationClose.addEventListener('click', function(){
+    el.celebrationOverlay.classList.remove('open');
+  });
+
+  // ---------- init ----------
+  loadSettings();
+  renderAnimal();
+  buildSettingsUI();
+  buildSession();
+  resetVisualState();
+  el.timeDisplay.textContent = formatTime(state.totalDuration);
+  updateButtons();
+})();
+</script>
+</body>
+</html>
